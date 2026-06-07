@@ -55,23 +55,16 @@ export function Hero() {
           </p>
         </div>
 
-        {/* Hero video — feathered so it floats seamlessly on the page.
-            The clip's own studio backdrop is essentially the brand blue, so a
-            matching halo sits behind it and the edges fade to transparent. */}
+        {/* Hero video — framed in a soft rounded card with a palette glow */}
         <div className="relative">
-          {/* Blue halo matching the video's studio backdrop
-              (resampled: top ~#7894AC, bottom ~#AAC3D0, avg ~#8FACC0) */}
+          {/* Soft gradient glow behind the card */}
           <div
             aria-hidden
-            className="absolute inset-0 -z-10 blur-2xl"
-            style={{
-              background:
-                "radial-gradient(62% 62% at 52% 46%, #93AFC2 0%, rgba(143,172,192,0.45) 46%, rgba(143,172,192,0) 80%)",
-            }}
+            className="absolute -inset-3 -z-10 rounded-[2.5rem] bg-gradient-to-br from-primary via-accent-pink to-accent-mauve opacity-60 blur-xl"
           />
-          <div className="relative aspect-square w-full sm:aspect-[5/5] md:aspect-[5/6]">
+          <div className="relative aspect-square w-full overflow-hidden rounded-[2rem] border border-white/60 bg-ink/5 shadow-xl shadow-ink/10 ring-1 ring-ink/10 sm:aspect-[5/5] md:aspect-[5/6]">
             <video
-              className="h-full w-full object-cover object-center [mask-image:radial-gradient(120%_120%_at_50%_44%,#000_55%,transparent_86%)] [-webkit-mask-image:radial-gradient(120%_120%_at_50%_44%,#000_55%,transparent_86%)]"
+              className="h-full w-full object-cover object-center"
               src="/videos/hero-demo.mp4"
               autoPlay
               muted

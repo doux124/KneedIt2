@@ -17,18 +17,21 @@ type KneeditLogoProps = {
 };
 
 export function KneeditLogo({
-  width = 520,
-  mark = "#bfe9e6", // pale mint
-  background = "#2b2d31", // charcoal (unused when showBackdrop renders the gradient)
-  showBackdrop = true,
+  width = 300,
+  mark = "#394955", // ink — clearly visible on light backgrounds
+  background = "#2b2d31", // charcoal (only used when showBackdrop is true)
+  showBackdrop = false,
   className,
 }: KneeditLogoProps) {
-  const ratio = 232 / 520; // viewBox aspect
+  // Tight viewBox cropped to the lockup (mark + wordmark), with the wordmark
+  // pulled closer to the K so they read as one unit.
+  const VB = { x: 50, y: 44, w: 420, h: 140 };
+  const ratio = VB.h / VB.w;
   return (
     <svg
       width={width}
       height={width * ratio}
-      viewBox="0 0 520 232"
+      viewBox={`${VB.x} ${VB.y} ${VB.w} ${VB.h}`}
       role="img"
       aria-label="Kneedit"
       className={className}
@@ -45,7 +48,7 @@ export function KneeditLogo({
               <stop offset="100%" stopColor="#222428" />
             </radialGradient>
           </defs>
-          <rect x="0" y="0" width="520" height="232" rx="6" fill="url(#kn-bg)" />
+          <rect x={VB.x} y={VB.y} width={VB.w} height={VB.h} rx="6" fill="url(#kn-bg)" />
         </>
       )}
 
@@ -66,17 +69,17 @@ export function KneeditLogo({
         <rect x="116" y="106" width="5" height="20" rx="2.5" />
       </g>
 
-      {/* ---- wordmark ---- */}
+      {/* ---- wordmark (pulled left, closer to the K) ---- */}
       <text
-        x="182"
+        x="150"
         y="160"
         fontFamily="'Arial Narrow', 'Helvetica Neue', Arial, sans-serif"
         fontSize="104"
         fontWeight="700"
         fontStyle="italic"
-        letterSpacing="2"
+        letterSpacing="1"
         transform="skewX(-10)"
-        style={{ transformOrigin: "182px 160px", fontStretch: "condensed" }}
+        style={{ transformOrigin: "150px 160px", fontStretch: "condensed" }}
         fill={mark}
       >
         NEEDIT
