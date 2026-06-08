@@ -24,8 +24,10 @@ export function KneeditLogo({
   className,
 }: KneeditLogoProps) {
   // Tight viewBox cropped to the lockup (mark + wordmark), with the wordmark
-  // pulled closer to the K so they read as one unit.
-  const VB = { x: 50, y: 44, w: 420, h: 140 };
+  // pulled closer to the K so they read as one unit. Extra right margin +
+  // overflow:visible guard against clipping the italic "T" when the condensed
+  // font falls back to a wider face on systems without 'Arial Narrow'.
+  const VB = { x: 50, y: 44, w: 470, h: 140 };
   const ratio = VB.h / VB.w;
   return (
     <svg
@@ -35,7 +37,7 @@ export function KneeditLogo({
       role="img"
       aria-label="Kneedit"
       className={className}
-      style={{ display: "block" }}
+      style={{ display: "block", overflow: "visible" }}
     >
       <title>Kneedit</title>
       <desc>A stylized K with a waveform stem, next to the wordmark NEEDIT.</desc>

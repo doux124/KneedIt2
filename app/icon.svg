@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="34 46 140 140" width="64" height="64">
+  <rect x="34" y="46" width="140" height="140" rx="32" fill="#394955"/>
+  <!-- K mark -->
+  <rect x="62" y="62" width="16" height="108" rx="2" fill="#D1E2F1"/>
+  <path d="M126 62 L150 62 L98 116 L84 104 Z" fill="#D1E2F1"/>
+  <path d="M84 128 L98 116 L150 170 L126 170 Z" fill="#D1E2F1"/>
+  <!-- LED / waveform strip in the notch -->
+  <g fill="#F5D8E7">
+    <rect x="88"  y="111" width="5" height="12" rx="2.5"/>
+    <rect x="98"  y="104" width="5" height="26" rx="2.5"/>
+    <rect x="108" y="99"  width="5" height="36" rx="2.5"/>
+    <rect x="118" y="107" width="5" height="20" rx="2.5"/>
+  </g>
+</svg>

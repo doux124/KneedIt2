@@ -2,16 +2,15 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useApp } from "../AppContext";
-import { YouTubeEmbed } from "../YouTubeEmbed";
 import { Card, Check, Pill, ProgressRing, ScreenHeader } from "../ui";
 
 type Phase = "list" | "active" | "verifying" | "done";
 
-// Real physical-therapy demo clips (verified embeddable) for each movement.
+// Local demonstration clips for each movement (in /public/videos).
 const EXERCISES = [
-  { id: "knee-ext", name: "Seated knee extensions", reps: 8, focus: "Quad strength", video: "v_R4c04GuKE" },
-  { id: "ankle", name: "Ankle circles", reps: 10, focus: "Circulation", video: "sYAGbGEQMGE" },
-  { id: "quad-set", name: "Quad sets", reps: 6, focus: "Joint stability", video: "5TUK4uT2nnw" },
+  { id: "knee-ext", name: "Seated knee extensions", reps: 8, focus: "Quad strength", src: "/videos/knee.mp4", poster: "/videos/knee-poster.jpg" },
+  { id: "ankle", name: "Ankle circles", reps: 10, focus: "Circulation", src: "/videos/ankle.mp4", poster: "/videos/ankle-poster.jpg" },
+  { id: "quad-set", name: "Quad sets", reps: 6, focus: "Joint stability", src: "/videos/quad.mp4", poster: "/videos/quad-poster.jpg" },
 ];
 
 export function MoveScreen() {
@@ -98,7 +97,7 @@ export function MoveScreen() {
               <span className="relative h-12 w-16 flex-none overflow-hidden rounded-lg bg-primary">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`https://i.ytimg.com/vi/${ex.video}/mqdefault.jpg`}
+                  src={ex.poster}
                   alt=""
                   className="h-full w-full object-cover"
                   loading="lazy"
@@ -133,7 +132,20 @@ export function MoveScreen() {
         <ScreenHeader eyebrow={`Exercise ${exIndex + 1} of ${EXERCISES.length}`} title={current.name} />
 
         {/* Real demonstration video — follow along */}
-        <YouTubeEmbed id={current.video} title={`${current.name} demonstration`} />
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-ink/90 ring-1 ring-ink/5">
+          <video
+            key={current.src}
+            src={current.src}
+            poster={current.poster}
+            className="h-full w-full object-contain"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={`${current.name} demonstration`}
+          />
+        </div>
 
         <div className="mt-4 space-y-4">
           {/* Rep tracker */}
