@@ -3,7 +3,7 @@ import { Reveal } from "../ui/Reveal";
 const barriers = [
   {
     title: "Fear of injury",
-    body: "Many elderly avoid exercise because they worry about hurting themselves — so they do nothing at all.",
+    body: "Many elderly avoid exercise because they worry about hurting themselves, so they do nothing at all.",
   },
   {
     title: "Social embarrassment",
@@ -11,7 +11,7 @@ const barriers = [
   },
   {
     title: "No accountability",
-    body: "Nothing at home tracks whether exercise actually happens — and no one notices when it stops.",
+    body: "Nothing at home tracks whether exercise actually happens, and no one notices when it stops.",
   },
 ];
 
@@ -25,13 +25,13 @@ export function Problem() {
           </span>
           <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
             Knee osteoarthritis is largely preventable.
-            <br className="hidden sm:block" /> The barrier isn&apos;t awareness —
+            <br className="hidden sm:block" /> The barrier isn&apos;t awareness,
             it&apos;s adherence.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink/70">
             Exercise is the single most evidence-backed way to slow knee
             osteoarthritis. Yet elderly Singaporeans exercise the least. Our
-            interviews revealed why — and existing products don&apos;t fix any of
+            interviews revealed why, and existing products don&apos;t fix any of
             it.
           </p>
         </Reveal>
@@ -61,7 +61,7 @@ export function Problem() {
         >
           <p className="text-lg leading-relaxed text-white/90">
             Braces are passive. Smartwatches track steps, not knees. Clinical
-            devices are built for post-surgical recovery — expensive and
+            devices are built for post-surgical recovery, expensive and
             hospital-bound.
           </p>
           <p className="mt-4 font-heading text-xl font-semibold">

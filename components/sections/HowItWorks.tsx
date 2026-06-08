@@ -6,7 +6,7 @@ const layers = [
   {
     tag: "01 · The Sleeve",
     title: "Clinical-grade sensing, disguised as comfort",
-    body: "Worn during exercise and passively all day, the sleeve captures what no general wearable can — knee-specific range of motion, muscle engagement (EMG), and tissue health (PPG). An on-sleeve LED strip gives instant feedback, so users never need to touch a screen.",
+    body: "Worn during exercise and passively all day, the sleeve captures what no general wearable can: knee-specific range of motion, muscle engagement (EMG), and tissue health (PPG). An on-sleeve LED strip gives instant feedback, so users never need to touch a screen.",
     points: [
       "Kinematic, EMG & PPG sensors",
       "No setup, no technical literacy needed",
@@ -36,7 +36,7 @@ const layers = [
   {
     tag: "03 · The Caregiver Ecosystem",
     title: "Family stays in the loop, automatically",
-    body: "A dashboard lets nominated family members see exercise history, range-of-motion trends, and decline flags in real time. Miss sessions or show worsening mobility, and caregivers get an automatic alert — no self-reporting from the elderly user.",
+    body: "A dashboard lets nominated family members see exercise history, range-of-motion trends, and decline flags in real time. Miss sessions or show worsening mobility, and caregivers get an automatic alert, with no self-reporting from the elderly user.",
     points: [
       "Real-time exercise & ROM trends",
       "Automatic missed-session alerts",

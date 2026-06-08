@@ -11,7 +11,7 @@ export function Footer() {
             <KneeditLogo width={150} />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink/60">
               A smart knee sleeve and free companion app that prevents and
-              monitors knee osteoarthritis — built for elderly users and their
+              monitors knee osteoarthritis, built for elderly users and their
               caregivers. Designed in Singapore at the National University of
               Singapore.
             </p>

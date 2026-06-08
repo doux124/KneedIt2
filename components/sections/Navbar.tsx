@@ -31,7 +31,7 @@ export function Navbar() {
         }`}
         aria-label="Primary"
       >
-        <a href="#top" aria-label="Kneedit — home" className="flex items-center">
+        <a href="#top" aria-label="Kneedit home" className="flex items-center">
           <KneeditLogo width={132} />
         </a>
 

@@ -31,7 +31,7 @@ export function DemoApp() {
         {/* Top bar */}
         <header className="sticky top-0 z-40 border-b border-ink/10 bg-surface/80 backdrop-blur">
           <div className="container-content flex items-center justify-between py-4">
-            <Link href="/" aria-label="Kneedit — home" className="flex items-center">
+            <Link href="/" aria-label="Kneedit home" className="flex items-center">
               <KneeditLogo width={132} />
             </Link>
             <Link
@@ -59,7 +59,7 @@ export function DemoApp() {
             </h1>
             <p className="mt-4 max-w-md text-lg leading-relaxed text-ink/70">
               Turn screen time into knee-saving movement. Tap through the app on
-              the right — start a guided session, watch the sleeve verify it, and
+              the right. Start a guided session, watch the sleeve verify it, and
               see what a caregiver sees.
             </p>
 

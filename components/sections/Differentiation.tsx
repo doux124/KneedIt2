@@ -40,7 +40,7 @@ export function Differentiation() {
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink/70">
             Clinical-grade knee monitoring, a proven behavioural adherence
-            mechanism, and a caregiver ecosystem — in one everyday wearable.
+            mechanism, and a caregiver ecosystem, all in one everyday wearable.
           </p>
         </Reveal>
 

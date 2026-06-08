@@ -18,7 +18,7 @@ export function SettingsScreen() {
       <ScreenHeader
         eyebrow="Settings"
         title="Profile & care plan"
-        sub="Caregivers set this up — no input needed from the elderly user."
+        sub="Caregivers set this up. No input needed from the elderly user."
       />
 
       {/* Profile */}
@@ -83,7 +83,7 @@ export function SettingsScreen() {
       </Card>
 
       <p className="px-1 text-center text-[11px] leading-relaxed text-ink/45">
-        Prototype only. Kneedit is a concept demo — not a medical device,
+        Prototype only. Kneedit is a concept demo, not a medical device,
         diagnosis, or treatment tool.
       </p>
     </div>

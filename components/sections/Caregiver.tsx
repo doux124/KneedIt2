@@ -20,9 +20,9 @@ export function Caregiver() {
           </p>
           <blockquote className="mt-8 border-l-4 border-secondary pl-5 text-lg italic leading-relaxed text-ink/80">
             &ldquo;If my daughter could see I had done it, she would stop
-            nagging me — and that alone was reason enough to try.&rdquo;
+            nagging me, and that alone was reason enough to try.&rdquo;
             <footer className="mt-2 text-sm not-italic text-ink/55">
-              — Elderly participant, Kneedit stakeholder interview
+              Elderly participant, Kneedit stakeholder interview
             </footer>
           </blockquote>
         </Reveal>
@@ -89,7 +89,7 @@ export function Caregiver() {
                 </svg>
               </span>
               <p className="text-sm text-ink/75">
-                No alerts — last session verified 2 hours ago.
+                No alerts. Last session verified 2 hours ago.
               </p>
             </div>
           </div>

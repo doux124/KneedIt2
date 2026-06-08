@@ -17,9 +17,9 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Kneedit — Smart Knee Sleeve that Prevents Osteoarthritis",
+  title: "Kneedit: Smart Knee Sleeve that Prevents Osteoarthritis",
   description:
-    "Kneedit is a clinical-grade smart knee sleeve and companion app that turns everyday wear into passive joint care — preventing and monitoring knee osteoarthritis for elderly users, with a caregiver dashboard for family.",
+    "Kneedit is a clinical-grade smart knee sleeve and companion app that turns everyday wear into passive joint care. It prevents and monitors knee osteoarthritis for elderly users, with a caregiver dashboard for family.",
   keywords: [
     "smart knee sleeve",
     "osteoarthritis prevention",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "caregiver dashboard",
   ],
   openGraph: {
-    title: "Kneedit — Prevent Knee Osteoarthritis Before It Starts",
+    title: "Kneedit: Prevent Knee Osteoarthritis Before It Starts",
     description:
       "A smart knee sleeve + free companion app that turns screen time into guided, sleeve-verified exercise. Clinical-grade monitoring, built for elderly users and their caregivers.",
     type: "website",

@@ -15,11 +15,11 @@ export function FinalCTA() {
           />
           <div className="relative">
             <h2 className="mx-auto max-w-2xl text-3xl font-bold text-white sm:text-4xl">
-              The first wearable that doesn&apos;t just track osteoarthritis — it
+              The first wearable that doesn&apos;t just track osteoarthritis, it
               prevents it.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/75">
-              Step through the Kneedit companion app yourself — see how everyday
+              Step through the Kneedit companion app yourself. See how everyday
               phone habits become daily joint care, and how families stay in the
               loop.
             </p>

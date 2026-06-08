@@ -217,7 +217,7 @@ export function MoveScreen() {
         <p className="font-heading text-sm font-semibold text-ink">Nicely done</p>
         <p className="mt-1 text-xs leading-relaxed text-ink/65">
           That&apos;s 3 exercises verified by your sleeve. Range of motion is
-          trending up — keep it going tomorrow.
+          trending up. Keep it going tomorrow.
         </p>
       </Card>
       <div className="flex w-full gap-2">
