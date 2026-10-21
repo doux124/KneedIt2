@@ -8,7 +8,7 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-full font-heading font-semibold cursor-pointer transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:opacity-60 disabled:cursor-not-allowed";
 
 const variants: Record<Variant, string> = {
-  // CTA — deep slate with light text (high contrast, on-palette)
+  // CTA: deep slate with light text (high contrast, on-palette)
   primary: "bg-ink text-white hover:bg-ink/90 shadow-sm",
   secondary:
     "bg-white text-ink border border-secondary/50 hover:border-secondary hover:bg-primary/40",

@@ -1,19 +1,22 @@
 import { Reveal } from "../ui/Reveal";
 
-const rows = [
-  { feature: "Knee-specific range of motion", brace: false, watch: false, clinical: true, kneedit: true },
-  { feature: "Muscle engagement (EMG)", brace: false, watch: false, clinical: true, kneedit: true },
-  { feature: "Form-scored exercise, ranked with friends", brace: false, watch: false, clinical: false, kneedit: true },
-  { feature: "Caregiver dashboard & alerts", brace: false, watch: false, clinical: false, kneedit: true },
-  { feature: "Consumer price, built for home", brace: true, watch: true, clinical: false, kneedit: true },
-];
-
 const columns = [
-  { key: "brace", label: "Braces" },
-  { key: "watch", label: "Smartwatches" },
-  { key: "clinical", label: "Clinical devices" },
+  { key: "sleeve", label: "Compression sleeve" },
+  { key: "watch", label: "Smartwatch" },
+  { key: "hinge", label: "Hinge Health" },
+  { key: "kimia", label: "Kinexcs KIMIA" },
   { key: "kneedit", label: "Kneedit" },
 ] as const;
+
+type Key = (typeof columns)[number]["key"];
+
+const rows: ({ feature: string } & Record<Key, boolean>)[] = [
+  { feature: "Knee-specific sensing", sleeve: false, watch: false, hinge: false, kimia: true, kneedit: true },
+  { feature: "Verified completion", sleeve: false, watch: false, hinge: true, kimia: true, kneedit: true },
+  { feature: "Family view", sleeve: false, watch: false, hinge: false, kimia: false, kneedit: true },
+  { feature: "Physio view", sleeve: false, watch: false, hinge: true, kimia: true, kneedit: true },
+  { feature: "Available to Singapore consumers", sleeve: true, watch: true, hinge: false, kimia: false, kneedit: true },
+];
 
 function Mark({ on }: { on: boolean }) {
   return on ? (
@@ -36,17 +39,15 @@ export function Differentiation() {
             Why Kneedit
           </span>
           <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-            The only product that combines all three
+            Supports your physio. Doesn&apos;t replace them.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink/70">
-            Clinical-grade knee monitoring, a social layer that makes exercise
-            worth doing well, and a caregiver ecosystem, all in one everyday
-            wearable.
+            Physiotherapy is the care. Kneedit makes the home part of it happen.
           </p>
         </Reveal>
 
         <Reveal className="mt-12 overflow-x-auto">
-          <table className="w-full min-w-[640px] border-separate border-spacing-0 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-ink/5">
+          <table className="w-full min-w-[760px] border-separate border-spacing-0 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-ink/5">
             <thead>
               <tr>
                 <th className="bg-white p-5 text-left font-heading text-sm font-semibold text-ink/60">

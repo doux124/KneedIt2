@@ -16,22 +16,25 @@ const notoSans = Noto_Sans({
   display: "swap",
 });
 
+const title = "Kneedit: keep up your knee exercises at home";
+const description =
+  "A smart knee sleeve and app that helps seniors with knee osteoarthritis keep up their physio exercises, and shows their family and physiotherapist.";
+
 export const metadata: Metadata = {
-  title: "Kneedit: Smart Knee Sleeve that Prevents Osteoarthritis",
-  description:
-    "Kneedit is a clinical-grade smart knee sleeve and companion app that turns everyday wear into passive joint care. It prevents and monitors knee osteoarthritis for elderly users, with a caregiver dashboard for family.",
+  title,
+  description,
   keywords: [
     "smart knee sleeve",
-    "osteoarthritis prevention",
-    "wearable health",
+    "knee osteoarthritis",
+    "home exercise programme",
+    "physiotherapy",
     "elderly care",
     "Singapore",
-    "caregiver dashboard",
+    "caregiver",
   ],
   openGraph: {
-    title: "Kneedit: Prevent Knee Osteoarthritis Before It Starts",
-    description:
-      "A smart knee sleeve + free companion app that scores every exercise on form and ranks you against friends. Clinical-grade monitoring, built for elderly users and their caregivers.",
+    title,
+    description,
     type: "website",
   },
 };
