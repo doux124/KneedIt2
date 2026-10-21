@@ -7,16 +7,16 @@ import { KneeditLogo } from "../brand/KneeditLogo";
 
 const FEATURES = [
   {
-    title: "Screen-time lock",
-    body: "Gently pauses the phone after extended use and offers a movement break.",
+    title: "Points for good form",
+    body: "Every rep scores, multiplied up to 3x when the sleeve rates your form as perfect.",
   },
   {
-    title: "Guided exercises",
-    body: "Large, simple steps for knee extensions, ankle circles and quad sets.",
+    title: "Friends leaderboard",
+    body: "Add friends, see where you stand this week, and climb by moving well.",
   },
   {
     title: "Sleeve verification",
-    body: "ROM, EMG and PPG confirm the session was genuinely completed.",
+    body: "ROM, EMG and PPG confirm the exercise was genuinely done. No sleeve, no points.",
   },
   {
     title: "Caregiver dashboard",
@@ -58,9 +58,10 @@ export function DemoApp() {
               The Kneedit companion app
             </h1>
             <p className="mt-4 max-w-md text-lg leading-relaxed text-ink/70">
-              Turn screen time into knee-saving movement. Tap through the app on
-              the right. Start a guided session, watch the sleeve verify it, and
-              see what a caregiver sees.
+              Turn knee exercises into something worth showing up for. Tap
+              through the app on the right. Run a guided session, watch the
+              sleeve score your form into points, and climb your friends&apos;
+              leaderboard.
             </p>
 
             <QuickActions />
@@ -91,20 +92,32 @@ export function DemoApp() {
 
 /** Shortcut buttons that jump to key moments — uses app state. */
 function QuickActions() {
-  const { setTab, setLocked } = useApp();
+  const { setTab, setAutoStart, setAddFriendOpen } = useApp();
   return (
     <div className="mt-7 flex flex-wrap gap-2">
       <button
-        onClick={() => setLocked(true)}
+        onClick={() => {
+          setAutoStart(true);
+          setTab("move");
+        }}
         className="cursor-pointer rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink/90"
       >
-        See the screen-time lock
+        Earn points now
       </button>
       <button
-        onClick={() => setTab("move")}
+        onClick={() => setTab("friends")}
         className="cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
       >
-        Start an exercise
+        See the leaderboard
+      </button>
+      <button
+        onClick={() => {
+          setTab("friends");
+          setAddFriendOpen(true);
+        }}
+        className="cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
+      >
+        Add a friend
       </button>
       <button
         onClick={() => setTab("caregiver")}

@@ -23,7 +23,23 @@ npm run build && npm start   # production build
 | Route   | What it is |
 |---------|------------|
 | `/`     | Marketing landing page (autoplaying hero video, problem, how-it-works, caregiver, comparison, CTA) |
-| `/demo` | Interactive companion-app prototype — Today · Move · Sleeve · Family · Settings, plus the screen-time lock → guided exercise → sleeve-verify → unlock flow |
+| `/demo` | Interactive companion-app prototype — Today · Move · Sleeve · Friends · Care · Settings, plus the guided exercise → live form scoring → sleeve-verify → points → leaderboard flow |
+
+## Points & leaderboard
+
+The behavioural layer is a friends leaderboard rather than a phone lock. Scoring
+lives in [components/app/points.ts](components/app/points.ts):
+
+- Each rep is worth `POINTS_PER_REP` (2) points.
+- The sleeve scores form 0–100 on every rep. That score picks a grade, and the
+  grade sets the multiplier: perfect `3×`, great `2×`, good `1.5×`, fair `1×`.
+- `pointsFor(reps, formScore)` is the only place points are computed. A full
+  three-exercise session (24 reps) is worth up to `MAX_SESSION_POINTS` (144).
+- Weekly points, streak, friends, requests and the derived leaderboard all live
+  in `AppContext`. Finishing a session calls `logSession(results)`, which banks
+  the points and re-ranks the table live.
+- Friends are seeded in `points.ts` (`SEED_FRIENDS`, `SEED_REQUESTS`,
+  `SUGGESTED_FRIENDS`). Adding one via the sheet reshuffles the standings.
 
 ## Hero video
 
@@ -62,9 +78,9 @@ app/
 components/
   sections/         Navbar, Hero (video), StatBar, Problem, HowItWorks,
                     Caregiver, Differentiation, FinalCTA, Footer
-  app/              DemoApp shell + AppContext + LockPrompt
+  app/              DemoApp shell + AppContext + AddFriendSheet + points.ts
     screens/        TodayScreen, MoveScreen, SleeveScreen,
-                    CaregiverScreen, SettingsScreen
+                    LeaderboardScreen, CaregiverScreen, SettingsScreen
   ui/               Button, Reveal (scroll animations)
 tailwind.config.ts  Locked palette + fonts
 ```

@@ -13,11 +13,11 @@
 
 ## The Product (three layers)
 1. **Smart sleeve** — clinical-grade, knee-specific sensing: kinematic (range of motion), electromyographic (muscle engagement), photoplethysmographic (tissue health). Built for elderly: no setup, no screen interaction, on-sleeve **LED strip** for instant feedback, feels like a normal compression sleeve.
-2. **Behavioural layer (companion app)** — monitors daily screen time; past a threshold it **locks the phone** and shows a guided, clinically-validated exercise session (seated knee extensions, ankle circles, quad sets). The phone **won't unlock until the sleeve verifies genuine completion**. "No willpower required."
+2. **Behavioural layer (companion app)** — guided, clinically-validated exercise sessions (seated knee extensions, ankle circles, quad sets) that the sleeve **scores on form, rep by rep**. Points scale with quality (perfect form is worth 3× a rushed rep), and those points feed a **weekly leaderboard shared with friends the user adds**. Motivation is social rather than coercive: a friend one place ahead, not a locked phone.
 3. **Caregiver ecosystem** — dashboard for nominated family members: real-time exercise history, ROM trends, and **automatic alerts** for missed sessions or mobility decline. Caregivers configure thresholds on the elder's behalf.
 
 ## Differentiation
-The only product combining **clinical-grade knee monitoring + a behavioural adherence mechanism + a caregiver dashboard** in a consumer-priced everyday wearable.
+The only product combining **clinical-grade knee monitoring + form-scored exercise ranked with friends + a caregiver dashboard** in a consumer-priced everyday wearable. Smartwatches can compare step counts, but none can tell whether a knee extension was done properly, so none can score it.
 
 ## Business Model
 - **Direct-to-consumer hardware** — the sleeve is the paid product (primary revenue).
@@ -38,4 +38,4 @@ Undergraduate students at the **National University of Singapore**: Advait, Jord
 | Tone | Trustworthy, clinical-grade, warm, accessible (not cold/medical) |
 | Hero asset | Autoplaying product video (`public/videos/hero-demo.mp4`) |
 | Key CTA | **Demo button** → `/demo` interactive companion-app prototype |
-| Proof points | 40% OA prevalence, 24% exercise rate, clinical-grade sensing, phone-lock adherence |
+| Proof points | 40% OA prevalence, 24% exercise rate, clinical-grade sensing, form-scored points + friends leaderboard |

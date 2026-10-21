@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kneedit: Prevent Knee Osteoarthritis Before It Starts",
     description:
-      "A smart knee sleeve + free companion app that turns screen time into guided, sleeve-verified exercise. Clinical-grade monitoring, built for elderly users and their caregivers.",
+      "A smart knee sleeve + free companion app that scores every exercise on form and ranks you against friends. Clinical-grade monitoring, built for elderly users and their caregivers.",
     type: "website",
   },
 };

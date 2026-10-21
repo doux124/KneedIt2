@@ -1,0 +1,25 @@
+# Deps and build output — Vercel installs and builds these itself
+node_modules
+.next
+.git
+
+# macOS cruft
+.DS_Store
+**/.DS_Store
+
+# Internal documents. Anything under public/ is served at the site root,
+# so these must never be uploaded.
+public/*.pdf
+public/*.docx
+public/~$*
+public/*.md
+
+# Pitch decks and posters — shared deliberately, not published on the site
+public/kneedit_deck.html
+public/kneedit_deck_hwawei.html
+public/kneedit-poster.html
+public/efg-poster.html
+
+# Project notes
+PROJECT.md
+COLORS.md

@@ -4,7 +4,7 @@ import { useApp } from "../AppContext";
 import { Card, Check, Pill, ScreenHeader } from "../ui";
 
 export function CaregiverScreen() {
-  const { profile, sessionDone } = useApp();
+  const { profile, sessionDone, weeklyPoints, rank, leaderboard, streak } = useApp();
   const week = [true, true, false, true, true, sessionDone, false];
   const days = ["M", "T", "W", "T", "F", "S", "S"];
 
@@ -40,6 +40,30 @@ export function CaregiverScreen() {
           <p className="text-xs text-ink/55">vs. last month</p>
         </Card>
       </div>
+
+      {/* Motivation signal — what the leaderboard is doing for adherence */}
+      <Card className="space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="font-heading text-sm font-semibold text-ink">Motivation</p>
+          <Pill tone="secondary">{streak}-day streak</Pill>
+        </div>
+        <div className="flex items-center gap-4">
+          <div>
+            <p className="font-heading text-2xl font-bold text-ink">{weeklyPoints}</p>
+            <p className="text-[11px] text-ink/55">points this week</p>
+          </div>
+          <div className="h-8 w-px bg-ink/10" aria-hidden />
+          <div>
+            <p className="font-heading text-2xl font-bold text-secondary">#{rank}</p>
+            <p className="text-[11px] text-ink/55">of {leaderboard.length} friends</p>
+          </div>
+        </div>
+        <p className="text-[11px] leading-relaxed text-ink/50">
+          {profile.elder} exercises alongside {leaderboard.length - 1} friends.
+          Points only count when the sleeve confirms good form, so the ranking
+          reflects real work.
+        </p>
+      </Card>
 
       {/* Weekly adherence */}
       <Card className="space-y-3">
@@ -81,7 +105,8 @@ export function CaregiverScreen() {
       <Card className="space-y-3">
         <p className="font-heading text-sm font-semibold text-ink">Recent activity</p>
         {[
-          { t: "Session verified by sleeve", time: "2h ago", good: true },
+          { t: "Session verified by sleeve, 96 points earned", time: "2h ago", good: true },
+          { t: "Overtook Mr Chua on the leaderboard", time: "Yesterday", good: true },
           { t: "Range of motion improved to 92°", time: "Yesterday", good: true },
           { t: "Missed evening session", time: "Mon", good: false },
         ].map((a) => (

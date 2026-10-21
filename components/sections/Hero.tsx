@@ -28,8 +28,8 @@ export function Hero() {
 
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink/75">
             Kneedit is a smart knee sleeve that turns everyday wear into a
-            passive health assessment, and turns screen time into guided,
-            sleeve-verified exercise. The first wearable that doesn&apos;t just
+            passive health assessment, and turns knee exercises into points you
+            climb a leaderboard with. The first wearable that doesn&apos;t just
             monitor osteoarthritis, it actively prevents it.
           </p>
 

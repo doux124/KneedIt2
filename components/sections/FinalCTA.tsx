@@ -19,9 +19,9 @@ export function FinalCTA() {
               prevents it.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/75">
-              Step through the Kneedit companion app yourself. See how everyday
-              phone habits become daily joint care, and how families stay in the
-              loop.
+              Step through the Kneedit companion app yourself. See how a
+              well-performed exercise becomes points, how friends keep each
+              other moving, and how families stay in the loop.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <Link

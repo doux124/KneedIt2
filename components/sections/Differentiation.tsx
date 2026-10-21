@@ -3,7 +3,7 @@ import { Reveal } from "../ui/Reveal";
 const rows = [
   { feature: "Knee-specific range of motion", brace: false, watch: false, clinical: true, kneedit: true },
   { feature: "Muscle engagement (EMG)", brace: false, watch: false, clinical: true, kneedit: true },
-  { feature: "Behavioural adherence mechanism", brace: false, watch: false, clinical: false, kneedit: true },
+  { feature: "Form-scored exercise, ranked with friends", brace: false, watch: false, clinical: false, kneedit: true },
   { feature: "Caregiver dashboard & alerts", brace: false, watch: false, clinical: false, kneedit: true },
   { feature: "Consumer price, built for home", brace: true, watch: true, clinical: false, kneedit: true },
 ];
@@ -39,8 +39,9 @@ export function Differentiation() {
             The only product that combines all three
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink/70">
-            Clinical-grade knee monitoring, a proven behavioural adherence
-            mechanism, and a caregiver ecosystem, all in one everyday wearable.
+            Clinical-grade knee monitoring, a social layer that makes exercise
+            worth doing well, and a caregiver ecosystem, all in one everyday
+            wearable.
           </p>
         </Reveal>
 

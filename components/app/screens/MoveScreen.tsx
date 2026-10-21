@@ -3,22 +3,35 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useApp } from "../AppContext";
 import { Card, Check, Pill, ProgressRing, ScreenHeader } from "../ui";
+import {
+  EXERCISES,
+  GRADES,
+  MAX_SESSION_POINTS,
+  POINTS_PER_REP,
+  gradeFor,
+  maxPointsFor,
+  pointsFor,
+  type ExerciseResult,
+} from "../points";
 
 type Phase = "list" | "active" | "verifying" | "done";
 
-// Local demonstration clips for each movement (in /public/videos).
-const EXERCISES = [
-  { id: "knee-ext", name: "Seated knee extensions", reps: 8, focus: "Quad strength", src: "/videos/knee.mp4", poster: "/videos/knee-poster.jpg" },
-  { id: "ankle", name: "Ankle circles", reps: 10, focus: "Circulation", src: "/videos/ankle.mp4", poster: "/videos/ankle-poster.jpg" },
-  { id: "quad-set", name: "Quad sets", reps: 6, focus: "Joint stability", src: "/videos/quad.mp4", poster: "/videos/quad-poster.jpg" },
-];
-
 export function MoveScreen() {
-  const { autoStart, setAutoStart, setSessionDone, setLocked } = useApp();
+  const { autoStart, setAutoStart, logSession, rank, leaderboard, setTab } = useApp();
   const [phase, setPhase] = useState<Phase>("list");
   const [exIndex, setExIndex] = useState(0);
   const [rep, setRep] = useState(0);
+  /** Live form score from the sleeve for the set in progress. */
+  const [formScore, setFormScore] = useState(88);
+  const [results, setResults] = useState<ExerciseResult[]>([]);
+  const [rankBefore, setRankBefore] = useState<number | null>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const advance = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultsRef = useRef<ExerciseResult[]>([]);
+  // Mirrors of the animated state, so the interval reads current values
+  // without re-subscribing on every tick.
+  const repRef = useRef(0);
+  const formRef = useRef(88);
 
   const current = EXERCISES[exIndex];
 
@@ -27,15 +40,25 @@ export function MoveScreen() {
       clearInterval(timer.current);
       timer.current = null;
     }
+    if (advance.current) {
+      clearTimeout(advance.current);
+      advance.current = null;
+    }
   };
 
   const startSession = useCallback(() => {
     setExIndex(0);
     setRep(0);
+    setFormScore(88);
+    setResults([]);
+    resultsRef.current = [];
+    repRef.current = 0;
+    formRef.current = 88;
+    setRankBefore(null);
     setPhase("active");
   }, []);
 
-  // Auto-start when launched from the lock prompt
+  // Auto-start when launched from Today or the leaderboard
   useEffect(() => {
     if (autoStart) {
       startSession();
@@ -43,44 +66,71 @@ export function MoveScreen() {
     }
   }, [autoStart, setAutoStart, startSession]);
 
-  // Drive the rep counter while a set is active
+  // Remember where the user sat before the points land, so the done screen
+  // can show the climb.
+  useEffect(() => {
+    if (phase === "active" && rankBefore === null) setRankBefore(rank);
+  }, [phase, rank, rankBefore]);
+
+  // Drive the rep counter while a set is active, scoring each rep as it lands
   useEffect(() => {
     if (phase !== "active") return;
     clearTimer();
     timer.current = setInterval(() => {
-      setRep((r) => {
-        if (r + 1 >= current.reps) {
-          clearTimer();
-          // move to next exercise or finish
-          setExIndex((idx) => {
-            if (idx + 1 < EXERCISES.length) {
-              setTimeout(() => setRep(0), 50);
-              return idx + 1;
-            }
-            setPhase("verifying");
-            return idx;
-          });
-          return current.reps;
-        }
-        return r + 1;
-      });
+      // The sleeve re-scores form on every rep.
+      const score = clamp(formRef.current + rand(-6, 7), 62, 98);
+      formRef.current = score;
+      setFormScore(score);
+
+      const nextRep = repRef.current + 1;
+      repRef.current = nextRep;
+      setRep(nextRep);
+
+      if (nextRep < current.reps) return;
+
+      // Set finished: bank it at the score the sleeve settled on.
+      clearTimer();
+      resultsRef.current = [
+        ...resultsRef.current,
+        {
+          id: current.id,
+          name: current.name,
+          reps: current.reps,
+          formScore: score,
+          grade: gradeFor(score),
+          points: pointsFor(current.reps, score),
+        },
+      ];
+      setResults(resultsRef.current);
+
+      if (exIndex + 1 < EXERCISES.length) {
+        repRef.current = 0;
+        advance.current = setTimeout(() => {
+          advance.current = null;
+          setRep(0);
+          setExIndex(exIndex + 1);
+        }, 450);
+      } else {
+        setPhase("verifying");
+      }
     }, 650);
     return clearTimer;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, exIndex]);
 
-  // Verifying → done
+  // Verifying → done, and the points land
   useEffect(() => {
     if (phase !== "verifying") return;
     const t = setTimeout(() => {
+      logSession(resultsRef.current);
       setPhase("done");
-      setSessionDone(true);
-      setLocked(false);
     }, 2200);
     return () => clearTimeout(t);
-  }, [phase, setSessionDone, setLocked]);
+  }, [phase, logSession]);
 
   useEffect(() => clearTimer, []);
+
+  const earned = results.reduce((sum, r) => sum + r.points, 0);
 
   if (phase === "list") {
     return (
@@ -88,10 +138,26 @@ export function MoveScreen() {
         <ScreenHeader
           eyebrow="Move"
           title="Today's movement break"
-          sub="Three gentle exercises, about two minutes. Your sleeve checks each one."
+          sub="Three gentle exercises, about two minutes. Your sleeve scores the form on every rep."
         />
+
+        <Card tone="pink" className="flex items-center gap-3">
+          <span className="grid h-11 w-11 flex-none place-items-center rounded-2xl bg-white font-heading text-sm font-bold text-secondary">
+            {MAX_SESSION_POINTS}
+          </span>
+          <div>
+            <p className="font-heading text-sm font-semibold text-ink">
+              Up to {MAX_SESSION_POINTS} points on the line
+            </p>
+            <p className="text-xs leading-relaxed text-ink/60">
+              {POINTS_PER_REP} points a rep, up to {GRADES.perfect.multiplier}×
+              when your form is perfect.
+            </p>
+          </div>
+        </Card>
+
         <div className="space-y-3">
-          {EXERCISES.map((ex, i) => (
+          {EXERCISES.map((ex) => (
             <Card key={ex.id} className="flex items-center gap-3">
               {/* Thumbnail from the actual demo clip */}
               <span className="relative h-12 w-16 flex-none overflow-hidden rounded-lg bg-primary">
@@ -112,6 +178,9 @@ export function MoveScreen() {
                 <p className="font-heading text-sm font-semibold text-ink">{ex.name}</p>
                 <p className="text-xs text-ink/55">{ex.focus} · {ex.reps} reps</p>
               </div>
+              <span className="font-heading text-xs font-bold text-ink/45">
+                {maxPointsFor(ex.reps)} pts
+              </span>
             </Card>
           ))}
         </div>
@@ -127,6 +196,7 @@ export function MoveScreen() {
 
   if (phase === "active") {
     const pct = (rep / current.reps) * 100;
+    const grade = gradeFor(formScore);
     return (
       <div className="flex h-full flex-col">
         <ScreenHeader eyebrow={`Exercise ${exIndex + 1} of ${EXERCISES.length}`} title={current.name} />
@@ -145,6 +215,20 @@ export function MoveScreen() {
             preload="metadata"
             aria-label={`${current.name} demonstration`}
           />
+          {/* Live form read-out from the sleeve */}
+          <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/70 px-2.5 py-1 backdrop-blur">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-secondary" aria-hidden />
+            <span className="text-[10px] font-semibold text-white">
+              {GRADES[grade].short} form · {GRADES[grade].multiplier}×
+            </span>
+          </div>
+          {earned > 0 && (
+            <div className="absolute right-2.5 top-2.5 rounded-full bg-white/90 px-2.5 py-1 backdrop-blur">
+              <span className="font-heading text-[10px] font-bold text-ink">
+                +{earned} pts
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="mt-4 space-y-4">
@@ -157,7 +241,7 @@ export function MoveScreen() {
               <p className="font-heading text-sm font-semibold text-ink">
                 Rep {rep} of {current.reps}
               </p>
-              <p className="text-xs text-ink/55">Follow the video at your own pace</p>
+              <p className="text-xs text-ink/55">Slow and controlled scores highest</p>
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink/10">
                 <div
                   className="h-full rounded-full bg-secondary transition-all duration-500"
@@ -167,12 +251,22 @@ export function MoveScreen() {
             </div>
           </Card>
 
-          <div className="flex items-center justify-center gap-2 rounded-full bg-secondary/15 px-4 py-2">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-secondary" aria-hidden />
-            <span className="text-xs font-semibold text-secondary">
-              Sleeve tracking your knee in real time
-            </span>
-          </div>
+          {/* Live form quality */}
+          <Card className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-ink/55">Form quality (sleeve)</p>
+              <p className="font-heading text-sm font-bold text-secondary">{formScore}</p>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-primary">
+              <div
+                className="h-full rounded-full bg-secondary transition-all duration-500"
+                style={{ width: `${formScore}%` }}
+              />
+            </div>
+            <p className="text-[11px] text-ink/50">
+              Range of motion, muscle engagement and smoothness, scored live.
+            </p>
+          </Card>
         </div>
       </div>
     );
@@ -188,7 +282,7 @@ export function MoveScreen() {
           </div>
         </div>
         <div>
-          <p className="font-heading text-xl font-bold text-ink">Sleeve verifying…</p>
+          <p className="font-heading text-xl font-bold text-ink">Scoring your form…</p>
           <p className="mt-1 text-sm text-ink/60">Confirming genuine range of motion</p>
         </div>
         <Card className="w-full space-y-2 text-left">
@@ -204,33 +298,90 @@ export function MoveScreen() {
   }
 
   // done
+  const climbed = rankBefore !== null && rank < rankBefore;
+  // Whoever now sits directly below you is the friend you just overtook.
+  const passed = climbed ? leaderboard.find((r) => r.rank === rank + 1)?.name : null;
+
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-5 text-center">
-      <div className="grid h-20 w-20 place-items-center rounded-full bg-ink text-white">
-        <Check className="h-10 w-10" />
+    <div className="space-y-4">
+      <div className="flex flex-col items-center gap-3 pt-2 text-center">
+        <div className="grid h-16 w-16 place-items-center rounded-full bg-ink text-white">
+          <Check className="h-8 w-8" />
+        </div>
+        <div>
+          <p className="font-heading text-2xl font-bold text-ink">+{earned} points</p>
+          <p className="mt-1 text-sm text-ink/60">
+            Session verified by your sleeve. {sessionNote(climbed, passed)}
+          </p>
+        </div>
       </div>
-      <div>
-        <p className="font-heading text-2xl font-bold text-ink">Session complete</p>
-        <p className="mt-1 text-sm text-ink/60">Phone unlocked · Your caregiver was notified</p>
-      </div>
-      <Card tone="pink" className="w-full text-left">
-        <p className="font-heading text-sm font-semibold text-ink">Nicely done</p>
-        <p className="mt-1 text-xs leading-relaxed text-ink/65">
-          That&apos;s 3 exercises verified by your sleeve. Range of motion is
-          trending up. Keep it going tomorrow.
-        </p>
+
+      {/* Per-exercise scoring */}
+      <Card className="space-y-3">
+        <p className="font-heading text-sm font-semibold text-ink">How you scored</p>
+        {results.map((r) => (
+          <div key={r.id} className="flex items-center gap-3">
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-ink/85">{r.name}</p>
+              <p className="text-[11px] text-ink/50">
+                {r.reps} reps · form {r.formScore}
+              </p>
+            </div>
+            <Pill tone={r.grade === "perfect" ? "good" : "primary"}>
+              {GRADES[r.grade].short} {GRADES[r.grade].multiplier}×
+            </Pill>
+            <span className="w-12 text-right font-heading text-sm font-bold text-ink">
+              +{r.points}
+            </span>
+          </div>
+        ))}
+        <div className="flex items-center justify-between border-t border-ink/10 pt-3">
+          <span className="text-sm font-semibold text-ink/70">Session total</span>
+          <span className="font-heading text-base font-bold text-secondary">+{earned} pts</span>
+        </div>
       </Card>
-      <div className="flex w-full gap-2">
+
+      {/* Standing */}
+      <Card tone="primary" className="flex items-center gap-3">
+        <span className="grid h-11 w-11 flex-none place-items-center rounded-2xl bg-white font-heading text-base font-bold text-ink">
+          {rank}
+        </span>
+        <div className="flex-1">
+          <p className="font-heading text-sm font-semibold text-ink">
+            {climbed ? "You moved up the leaderboard" : "Your place this week"}
+          </p>
+          <p className="text-xs text-ink/60">
+            {climbed && passed ? `You passed ${passed}.` : `${rank} of ${leaderboard.length} in your group.`}
+          </p>
+        </div>
+      </Card>
+
+      <div className="flex gap-2">
         <button
           onClick={() => setPhase("list")}
           className="flex-1 cursor-pointer rounded-xl bg-white py-2.5 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
         >
           Again
         </button>
-        <Pill tone="good">
-          <Check className="h-3 w-3" /> Logged
-        </Pill>
+        <button
+          onClick={() => setTab("friends")}
+          className="flex-1 cursor-pointer rounded-xl bg-ink py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink/90"
+        >
+          See leaderboard
+        </button>
       </div>
     </div>
   );
+}
+
+function sessionNote(climbed: boolean, passed: string | null | undefined) {
+  if (climbed && passed) return `You just passed ${passed}.`;
+  return "Your friends can see it on the leaderboard.";
+}
+
+function rand(min: number, max: number) {
+  return Math.round(min + Math.random() * (max - min));
+}
+function clamp(v: number, min: number, max: number) {
+  return Math.min(Math.max(v, min), max);
 }

@@ -13,7 +13,7 @@ const stats: Stat[] = [
   { value: 40, suffix: "%", label: "of Singaporeans over 70 affected by knee osteoarthritis" },
   { value: 24, suffix: "%", label: "of those aged 60–74 exercise regularly, the lowest of any age group" },
   { value: 3, label: "clinical-grade sensors in every sleeve: motion, muscle & tissue" },
-  { value: 0, label: "willpower required. The app handles adherence for you" },
+  { value: 3, suffix: "×", label: "points for exercises the sleeve scores as perfect form" },
 ];
 
 function useCountUp(target: number, active: boolean, duration = 1400) {

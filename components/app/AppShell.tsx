@@ -1,10 +1,11 @@
 "use client";
 
 import { useApp, type Tab } from "./AppContext";
-import { LockPrompt } from "./LockPrompt";
+import { AddFriendSheet } from "./AddFriendSheet";
 import { TodayScreen } from "./screens/TodayScreen";
 import { MoveScreen } from "./screens/MoveScreen";
 import { SleeveScreen } from "./screens/SleeveScreen";
+import { LeaderboardScreen } from "./screens/LeaderboardScreen";
 import { CaregiverScreen } from "./screens/CaregiverScreen";
 import { SettingsScreen } from "./screens/SettingsScreen";
 
@@ -38,8 +39,18 @@ const TABS: { id: Tab; label: string; icon: (a: string) => JSX.Element }[] = [
     ),
   },
   {
+    id: "friends",
+    label: "Friends",
+    icon: (c) => (
+      <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M8 4h8v5a4 4 0 0 1-8 0V4Z" strokeLinejoin="round" />
+        <path d="M8 5H5v2a3 3 0 0 0 3 3M16 5h3v2a3 3 0 0 1-3 3M12 13v4M9 20h6" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
     id: "caregiver",
-    label: "Family",
+    label: "Care",
     icon: (c) => (
       <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="9" cy="8" r="3" />
@@ -68,6 +79,8 @@ function Screen({ tab }: { tab: Tab }) {
       return <MoveScreen />;
     case "sleeve":
       return <SleeveScreen />;
+    case "friends":
+      return <LeaderboardScreen />;
     case "caregiver":
       return <CaregiverScreen />;
     case "settings":
@@ -76,7 +89,7 @@ function Screen({ tab }: { tab: Tab }) {
 }
 
 export function AppShell() {
-  const { tab, setTab } = useApp();
+  const { tab, setTab, weeklyPoints } = useApp();
 
   return (
     <div className="relative mx-auto w-full max-w-[380px]">
@@ -88,8 +101,10 @@ export function AppShell() {
         {/* status bar */}
         <div className="flex items-center justify-between px-6 pb-1 pt-3 text-[11px] font-semibold text-ink/60">
           <span>9:41</span>
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-secondary" aria-hidden /> Kneedit
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-secondary" aria-hidden />
+            <span className="text-secondary">{weeklyPoints} pts</span>
+            <span className="text-ink/30">·</span> Kneedit
           </span>
         </div>
 
@@ -100,7 +115,7 @@ export function AppShell() {
 
         {/* bottom tab bar */}
         <nav
-          className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-ink/10 bg-white/95 px-2 py-2.5 backdrop-blur"
+          className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-ink/10 bg-white/95 px-1 py-2.5 backdrop-blur"
           aria-label="App navigation"
         >
           {TABS.map((t) => {
@@ -109,20 +124,20 @@ export function AppShell() {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex cursor-pointer flex-col items-center gap-1 rounded-xl px-2 py-1 transition-colors ${
+                className={`flex cursor-pointer flex-col items-center gap-1 rounded-xl px-1.5 py-1 transition-colors ${
                   active ? "text-ink" : "text-ink/40 hover:text-ink/70"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
                 {t.icon("h-5 w-5")}
-                <span className="text-[10px] font-semibold">{t.label}</span>
+                <span className="text-[9px] font-semibold">{t.label}</span>
               </button>
             );
           })}
         </nav>
 
-        {/* lock overlay */}
-        <LockPrompt />
+        {/* add-friend sheet */}
+        <AddFriendSheet />
       </div>
     </div>
   );

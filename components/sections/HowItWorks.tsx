@@ -20,12 +20,12 @@ const layers = [
   },
   {
     tag: "02 · The Behavioural Layer",
-    title: "It turns screen time into joint care",
-    body: "The free app watches daily screen time. Past a set threshold, it locks the phone and starts a guided, clinically-validated exercise session. The phone won't unlock until the sleeve verifies the exercises were genuinely completed.",
+    title: "It turns exercise into something worth showing up for",
+    body: "The free app scores every rep the sleeve sees. Exercises done with proper form are worth up to three times the points of a rushed one, and those points place you on a weekly leaderboard shared with friends you choose. The motivation to move stops being a lecture and starts being a friend one place ahead of you.",
     points: [
-      "Seated knee extensions, ankle circles, quad sets",
-      "Sleeve confirms real range of motion",
-      "No willpower required",
+      "Points scale with form quality, not just reps",
+      "Add friends and compare weekly totals",
+      "Streaks and goals keep the habit alive",
     ],
     image:
       "https://images.unsplash.com/photo-1758691030826-86a149b6278b?w=1200&q=70&auto=format&fit=crop",

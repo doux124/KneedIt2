@@ -31,3 +31,11 @@ next-env.d.ts
 
 # source documents (not needed for the site)
 *.pdf
+
+# internal documents: kept on this machine only, never pushed (the repo is public).
+# .vercelignore keeps the same files off the live site.
+/public/*.docx
+/public/~$*
+/public/*.md
+/public/kneedit_deck*.html
+/public/*-poster.html
