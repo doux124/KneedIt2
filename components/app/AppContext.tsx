@@ -3,50 +3,57 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import {
   buildLeaderboard,
+  completionRate,
   initialsOf,
+  PAST_DAYS,
   SEED_FRIENDS,
   SEED_REQUESTS,
-  type ExerciseResult,
+  STARTING_STREAK,
   type Friend,
   type LeaderboardRow,
-} from "./points";
+  type SessionResult,
+} from "./progress";
 
 export type Tab = "today" | "move" | "sleeve" | "friends" | "caregiver" | "settings";
+
+/** Who the Care tab is showing: the family's report or the physio's view. */
+export type CareView = "family" | "physio";
 
 export type Profile = {
   elder: string;
   caregiver: string;
-  /** Points the user is aiming for this week. */
-  weeklyGoal: number;
+  /** Daily reminder. Kneedit suggests a time and the user sets it. */
+  reminder: string;
   /** Whether the user appears on their friends' leaderboards. */
   shareToLeaderboard: boolean;
+  /** What the family sees. The senior decides. */
+  shareWeeklyReport: boolean;
+  shareFallAlerts: boolean;
 };
-
-/** Points the user had already banked this week before the demo starts. */
-const STARTING_POINTS = 186;
 
 type AppContextValue = {
   tab: Tab;
   setTab: (t: Tab) => void;
 
-  /** Today's guided session has been completed */
+  /** Today's prescribed session has been completed */
   sessionDone: boolean;
-  setSessionDone: (v: boolean) => void;
 
   /** Signal for the Move screen to auto-start a session */
   autoStart: boolean;
   setAutoStart: (v: boolean) => void;
 
   profile: Profile;
-  setProfile: (p: Profile) => void;
+  setProfile: React.Dispatch<React.SetStateAction<Profile>>;
 
-  /** Points earned this week, form multipliers included */
-  weeklyPoints: number;
+  /** Prescribed sessions completed this week, today included */
+  sessionsDone: number;
+  /** sessionsDone as a share of the week's prescribed sessions */
+  weekRate: number;
   streak: number;
-  /** Per-exercise scoring from the most recent session */
-  lastSession: ExerciseResult[] | null;
-  /** Bank a finished session: adds points, marks the day done */
-  logSession: (results: ExerciseResult[]) => void;
+  /** The most recent session, finished or stopped early */
+  lastSession: SessionResult | null;
+  /** Record a session: a complete one marks the day done and extends the streak */
+  logSession: (session: SessionResult) => void;
 
   friends: Friend[];
   requests: Friend[];
@@ -62,6 +69,13 @@ type AppContextValue = {
 
   addFriendOpen: boolean;
   setAddFriendOpen: (v: boolean) => void;
+
+  careView: CareView;
+  setCareView: (v: CareView) => void;
+
+  /** Family's notes field, which the physio reads in the visit summary */
+  physioNote: string;
+  setPhysioNote: (v: string) => void;
 };
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -71,27 +85,33 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [sessionDone, setSessionDone] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
   const [profile, setProfile] = useState<Profile>({
-    elder: "Mdm Tan",
+    elder: "Mary",
     caregiver: "Wei",
-    weeklyGoal: 400,
+    reminder: "9:00 AM",
     shareToLeaderboard: true,
+    shareWeeklyReport: true,
+    shareFallAlerts: true,
   });
 
-  const [weeklyPoints, setWeeklyPoints] = useState(STARTING_POINTS);
-  const [streak, setStreak] = useState(4);
-  const [lastSession, setLastSession] = useState<ExerciseResult[] | null>(null);
+  const [streak, setStreak] = useState(STARTING_STREAK);
+  const [lastSession, setLastSession] = useState<SessionResult | null>(null);
 
   const [friends, setFriends] = useState<Friend[]>(SEED_FRIENDS);
   const [requests, setRequests] = useState<Friend[]>(SEED_REQUESTS);
   const [addFriendOpen, setAddFriendOpen] = useState(false);
+  const [careView, setCareView] = useState<CareView>("family");
+  const [physioNote, setPhysioNote] = useState("Knee felt stiff after a long walk on Thursday.");
+
+  const sessionsDone = PAST_DAYS.filter(Boolean).length + (sessionDone ? 1 : 0);
+  const weekRate = completionRate(sessionsDone);
 
   const logSession = useCallback(
-    (results: ExerciseResult[]) => {
-      const earned = results.reduce((sum, r) => sum + r.points, 0);
-      setLastSession(results);
-      setWeeklyPoints((p) => p + earned);
-      // The streak only moves on the first session of the day.
-      if (!sessionDone) setStreak((s) => s + 1);
+    (session: SessionResult) => {
+      setLastSession(session);
+      // Only the first complete session of the day counts. A session stopped
+      // early is kept, but shows as incomplete.
+      if (!session.complete || sessionDone) return;
+      setStreak((s) => s + 1);
       setSessionDone(true);
     },
     [sessionDone],
@@ -125,11 +145,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       id: "you",
       name: profile.elder,
       initials: initialsOf(profile.elder),
-      weeklyPoints,
+      sessionsDone,
       streak,
       you: true,
     }),
-    [profile.elder, weeklyPoints, streak],
+    [profile.elder, sessionsDone, streak],
   );
 
   const leaderboard = useMemo(() => buildLeaderboard(friends, you), [friends, you]);
@@ -144,12 +164,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         tab,
         setTab,
         sessionDone,
-        setSessionDone,
         autoStart,
         setAutoStart,
         profile,
         setProfile,
-        weeklyPoints,
+        sessionsDone,
+        weekRate,
         streak,
         lastSession,
         logSession,
@@ -163,6 +183,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         rank,
         addFriendOpen,
         setAddFriendOpen,
+        careView,
+        setCareView,
+        physioNote,
+        setPhysioNote,
       }}
     >
       {children}

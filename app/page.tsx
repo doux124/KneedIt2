@@ -3,8 +3,10 @@ import { Hero } from "@/components/sections/Hero";
 import { StatBar } from "@/components/sections/StatBar";
 import { Problem } from "@/components/sections/Problem";
 import { HowItWorks } from "@/components/sections/HowItWorks";
-import { Caregiver } from "@/components/sections/Caregiver";
+import { Families } from "@/components/sections/Families";
+import { Physios } from "@/components/sections/Physios";
 import { Differentiation } from "@/components/sections/Differentiation";
+import { Pricing } from "@/components/sections/Pricing";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Footer } from "@/components/sections/Footer";
 
@@ -17,8 +19,10 @@ export default function Home() {
         <StatBar />
         <Problem />
         <HowItWorks />
-        <Caregiver />
+        <Families />
+        <Physios />
         <Differentiation />
+        <Pricing />
         <FinalCTA />
       </main>
       <Footer />

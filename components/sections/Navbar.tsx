@@ -7,8 +7,10 @@ import { KneeditLogo } from "../brand/KneeditLogo";
 const links = [
   { href: "/#problem", label: "The Problem" },
   { href: "/#how", label: "How It Works" },
-  { href: "/#caregiver", label: "For Caregivers" },
+  { href: "/#families", label: "For Families" },
+  { href: "/#physios", label: "For Physios" },
   { href: "/#why", label: "Why Kneedit" },
+  { href: "/#pricing", label: "Pricing" },
 ];
 
 export function Navbar() {
@@ -35,7 +37,7 @@ export function Navbar() {
           <KneeditLogo width={132} />
         </a>
 
-        <ul className="hidden items-center gap-7 md:flex">
+        <ul className="hidden items-center gap-7 lg:flex">
           {links.map((l) => (
             <li key={l.href}>
               <a

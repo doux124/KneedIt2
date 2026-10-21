@@ -1,7 +1,8 @@
 # Kneedit — Landing Site + App Demo
 
 Marketing site and interactive companion-app prototype for **Kneedit**, a smart
-knee sleeve that prevents and monitors knee osteoarthritis. Built with
+knee sleeve and app that helps seniors with knee osteoarthritis keep up their
+physio exercises. Built with
 **Next.js (App Router) + Tailwind CSS**, ready to deploy on **Vercel**.
 
 See [PROJECT.md](PROJECT.md) for the product summary and [COLORS.md](COLORS.md)
@@ -22,23 +23,27 @@ npm run build && npm start   # production build
 
 | Route   | What it is |
 |---------|------------|
-| `/`     | Marketing landing page (autoplaying hero video, problem, how-it-works, caregiver, comparison, CTA) |
-| `/demo` | Interactive companion-app prototype — Today · Move · Sleeve · Friends · Care · Settings, plus the guided exercise → live form scoring → sleeve-verify → points → leaderboard flow |
+| `/`     | Marketing landing page (hero video, stats, problem, how it works, for families, for physios, comparison, pricing, CTA) |
+| `/demo` | Interactive companion-app prototype: Today, Start, Sleeve, Friends, Care (family and physio views) and Profile, plus the guided session: video, live form score, two-tap feedback, sleeve check, streak and leaderboard |
 
-## Points & leaderboard
+## Progress & leaderboard
 
-The behavioural layer is a friends leaderboard rather than a phone lock. Scoring
-lives in [components/app/points.ts](components/app/points.ts):
+The behavioural layer is a friends leaderboard ranked by completion, not volume.
+The model lives in [components/app/progress.ts](components/app/progress.ts):
 
-- Each rep is worth `POINTS_PER_REP` (2) points.
-- The sleeve scores form 0–100 on every rep. That score picks a grade, and the
-  grade sets the multiplier: perfect `3×`, great `2×`, good `1.5×`, fair `1×`.
-- `pointsFor(reps, formScore)` is the only place points are computed. A full
-  three-exercise session (24 reps) is worth up to `MAX_SESSION_POINTS` (144).
-- Weekly points, streak, friends, requests and the derived leaderboard all live
-  in `AppContext`. Finishing a session calls `logSession(results)`, which banks
-  the points and re-ranks the table live.
-- Friends are seeded in `points.ts` (`SEED_FRIENDS`, `SEED_REQUESTS`,
+- The sleeve scores form out of 10 on every exercise. A session's score is the
+  average across its exercises (`sessionScore`).
+- After each exercise the user answers two taps, "Did it hurt?" and "Was it
+  easy?". Both feed the family report and the physio's visit summary.
+- One session a day is prescribed (`SESSIONS_PER_WEEK`). `completionRate` turns
+  sessions done into this week's percentage, and extra sessions never count.
+- `buildLeaderboard` ranks friends by completion rate, then streak.
+- A session stopped early is kept but marked incomplete, so it moves neither
+  the streak nor the week.
+- The week, streak, friends, requests, the Care view and the family's notes for
+  the physio all live in `AppContext`. Finishing a session calls
+  `logSession(session)`, which updates the streak and re-ranks the table live.
+- Friends are seeded in `progress.ts` (`SEED_FRIENDS`, `SEED_REQUESTS`,
   `SUGGESTED_FRIENDS`). Adding one via the sheet reshuffles the standings.
 
 ## Hero video
@@ -77,11 +82,13 @@ app/
   globals.css       Tailwind + base styles + reduced-motion
 components/
   sections/         Navbar, Hero (video), StatBar, Problem, HowItWorks,
-                    Caregiver, Differentiation, FinalCTA, Footer
-  app/              DemoApp shell + AppContext + AddFriendSheet + points.ts
-    screens/        TodayScreen, MoveScreen, SleeveScreen,
-                    LeaderboardScreen, CaregiverScreen, SettingsScreen
-  ui/               Button, Reveal (scroll animations)
+                    Families, Physios, Differentiation, Pricing, FinalCTA,
+                    Footer, contact.ts (clinic pilot email)
+  app/              DemoApp shell + AppContext + AddFriendSheet + CareSwitch
+                    + progress.ts
+    screens/        TodayScreen, MoveScreen, SleeveScreen, LeaderboardScreen,
+                    CaregiverScreen (family report), PhysioScreen, SettingsScreen
+  ui/               Button, CheckList, Reveal (scroll animations)
 tailwind.config.ts  Locked palette + fonts
 ```
 
@@ -92,5 +99,5 @@ tailwind.config.ts  Locked palette + fonts
   `#394955` for high contrast (the pastels alone lack an action color).
 - **Fonts:** Figtree (headings) + Noto Sans (body) — a healthcare/accessible
   pairing from the UI/UX Pro Max skill.
-- **Pattern:** scroll-triggered storytelling (problem → product → caregiver →
-  why) with social-proof stat counters.
+- **Pattern:** scroll-triggered storytelling (problem → product → families →
+  physios → why → pricing) with sourced stat counters that link to their papers.

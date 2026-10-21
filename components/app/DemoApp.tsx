@@ -5,24 +5,13 @@ import Link from "next/link";
 import { AppProvider, useApp } from "./AppContext";
 import { AppShell } from "./AppShell";
 import { KneeditLogo } from "../brand/KneeditLogo";
+import { CheckList } from "../ui/CheckList";
 
 const FEATURES = [
-  {
-    title: "Points for good form",
-    body: "Every rep scores, multiplied up to 3x when the sleeve rates your form as perfect.",
-  },
-  {
-    title: "Friends leaderboard",
-    body: "Add friends, see where you stand this week, and climb by moving well.",
-  },
-  {
-    title: "Sleeve verification",
-    body: "ROM, EMG and PPG confirm the exercise was genuinely done. No sleeve, no points.",
-  },
-  {
-    title: "Caregiver dashboard",
-    body: "Family sees trends and progress, and gets missed-session alerts.",
-  },
+  "Your physio's exercises, with short videos",
+  "Every rep confirmed and scored by the sleeve",
+  "Streaks and a friends leaderboard",
+  "Reports for family and your physio",
 ];
 
 export function DemoApp() {
@@ -73,25 +62,18 @@ export function DemoApp() {
               The Kneedit companion app
             </h1>
             <p className="mt-4 max-w-md text-lg leading-relaxed text-ink/70">
-              Turn knee exercises into something worth showing up for. Tap
-              through the app on the right. Run a guided session, watch the
-              sleeve score your form into points, and climb your friends&apos;
-              leaderboard.
+              Tap through the app. Run today&apos;s prescribed session, answer
+              two quick questions after each exercise, and see what family and
+              the physio see.
             </p>
 
             <QuickActions onJump={revealPhone} />
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              {FEATURES.map((f) => (
-                <div key={f.title} className="rounded-2xl bg-white p-4 ring-1 ring-ink/5">
-                  <p className="font-heading text-sm font-semibold text-ink">{f.title}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-ink/60">{f.body}</p>
-                </div>
-              ))}
-            </div>
+            <CheckList items={FEATURES} className="mt-8" />
 
             <p className="mt-6 text-xs text-ink/45">
-              Prototype only. Not a medical device or diagnosis tool.
+              Prototype only. Kneedit is not a medical device. It does not
+              diagnose or replace professional care.
             </p>
           </div>
 
@@ -105,9 +87,9 @@ export function DemoApp() {
   );
 }
 
-/** Shortcut buttons that jump to key moments — uses app state. */
+/** Shortcut buttons that jump to key moments, using app state. */
 function QuickActions({ onJump }: { onJump: () => void }) {
-  const { setTab, setAutoStart, setAddFriendOpen } = useApp();
+  const { setTab, setAutoStart, setAddFriendOpen, setCareView } = useApp();
 
   const go = (action: () => void) => () => {
     action();
@@ -123,7 +105,7 @@ function QuickActions({ onJump }: { onJump: () => void }) {
         })}
         className="min-h-[44px] cursor-pointer rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink/90"
       >
-        Earn points now
+        Start today&apos;s session
       </button>
       <button
         onClick={go(() => setTab("friends"))}
@@ -141,10 +123,22 @@ function QuickActions({ onJump }: { onJump: () => void }) {
         Add a friend
       </button>
       <button
-        onClick={go(() => setTab("caregiver"))}
+        onClick={go(() => {
+          setCareView("family");
+          setTab("caregiver");
+        })}
         className="min-h-[44px] cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
       >
-        Caregiver view
+        Family report
+      </button>
+      <button
+        onClick={go(() => {
+          setCareView("physio");
+          setTab("caregiver");
+        })}
+        className="min-h-[44px] cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
+      >
+        Physio view
       </button>
     </div>
   );

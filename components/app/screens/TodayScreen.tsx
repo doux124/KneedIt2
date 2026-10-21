@@ -2,66 +2,66 @@
 
 import { useApp } from "../AppContext";
 import { Card, Check, Pill, ProgressRing, ScreenHeader, StatTile } from "../ui";
-import { MAX_SESSION_POINTS } from "../points";
+import { EXERCISES, formatScore, sessionScore } from "../progress";
 
 export function TodayScreen() {
-  const { profile, sessionDone, setTab, weeklyPoints, streak, rank, leaderboard } =
+  const { profile, sessionDone, setTab, weekRate, streak, rank, leaderboard, lastSession } =
     useApp();
 
-  const me = leaderboard.find((r) => r.you);
-  const ahead = leaderboard[Math.max(0, rank - 2)];
-  const gap = me && ahead && ahead.id !== me.id ? ahead.weeklyPoints - me.weeklyPoints : 0;
+  const lastScore = lastSession ? sessionScore(lastSession.exercises) : null;
 
   return (
     <div className="space-y-4">
       <ScreenHeader
-        eyebrow="Today"
         title={`Good morning, ${profile.elder}`}
-        sub="Gentle and ready to move."
+        sub={`Your reminder is set for ${profile.reminder}.`}
       />
 
-      {/* Readiness hero card */}
+      {/* Today's plan */}
       <Card tone="primary" className="flex items-center gap-4">
-        <ProgressRing value={sessionDone ? 100 : 60}>
+        <ProgressRing value={sessionDone ? 100 : 0}>
           <div>
             <p className="font-heading text-xl font-bold text-ink">
-              {sessionDone ? "Done" : "Ready"}
+              {sessionDone ? "Done" : EXERCISES.length}
             </p>
-            <p className="text-[10px] text-ink/55">today</p>
+            <p className="text-[10px] text-ink/55">{sessionDone ? "today" : "exercises"}</p>
           </div>
         </ProgressRing>
         <div className="flex-1">
           <p className="font-heading text-sm font-semibold text-ink">
-            Movement readiness
+            Today&apos;s plan
           </p>
           <p className="mt-1 text-sm leading-relaxed text-ink/70">
             {sessionDone
-              ? "You've completed today's session. Your knees thank you."
-              : "Your sleeve fits well and joints feel limber. A short session now keeps stiffness away."}
+              ? "You've done today's plan. Your knees thank you."
+              : "Three exercises from your physio, each with a short video."}
           </p>
         </div>
       </Card>
 
       {/* Stat grid */}
       <div className="grid grid-cols-2 gap-3">
-        <StatTile label="Points this week" value={`${weeklyPoints}`} hint={`goal ${profile.weeklyGoal}`} accent />
-        <StatTile label="Leaderboard" value={`#${rank}`} hint={`of ${leaderboard.length} friends`} />
-        <StatTile label="Streak" value={`${streak} days`} hint="keep it alive" />
-        <StatTile label="This week" value={sessionDone ? "6 / 7" : "5 / 7"} hint="sessions" />
+        <StatTile label="Sessions this week" value={`${weekRate}%`} accent />
+        <StatTile label="Streak" value={`${streak} days`} />
+        <StatTile label="Leaderboard" value={`#${rank}`} />
+        <StatTile
+          label="Last form score"
+          value={lastScore !== null ? formatScore(lastScore) : "None yet"}
+        />
       </div>
 
       {/* Next best action */}
       <Card className="space-y-3">
         <div className="flex items-center justify-between">
           <p className="font-heading text-sm font-semibold text-ink">
-            Next best action
+            Up next
           </p>
           {sessionDone ? (
             <Pill tone="good">
               <Check className="h-3 w-3" /> Complete
             </Pill>
           ) : (
-            <Pill tone="secondary">2 min · up to {MAX_SESSION_POINTS} pts</Pill>
+            <Pill tone="secondary">{EXERCISES.length} exercises</Pill>
           )}
         </div>
         <div className="flex items-center gap-3">
@@ -73,9 +73,9 @@ export function TodayScreen() {
           </span>
           <div>
             <p className="font-heading text-sm font-semibold text-ink">
-              Seated knee extensions
+              {EXERCISES[0].name}
             </p>
-            <p className="text-xs text-ink/60">Personalised to your joint profile</p>
+            <p className="text-xs text-ink/60">Prescribed by your physio</p>
           </div>
         </div>
         <button
@@ -86,7 +86,7 @@ export function TodayScreen() {
         </button>
       </Card>
 
-      {/* The core mechanic — friendly competition */}
+      {/* Friendly competition */}
       <Card tone="pink" className="space-y-3">
         <div className="flex items-center justify-between">
           <p className="font-heading text-sm font-semibold text-ink">
@@ -110,16 +110,11 @@ export function TodayScreen() {
                 {r.you && <span className="ml-1 font-normal text-ink/45">(you)</span>}
               </span>
               <span className="font-heading text-xs font-bold text-ink">
-                {r.weeklyPoints}
+                {r.rate}%
               </span>
             </div>
           ))}
         </div>
-        <p className="text-xs leading-relaxed text-ink/65">
-          {gap > 0
-            ? `${gap} points behind ${ahead?.name}. Exercises done with good form score the most.`
-            : "You're leading your group. A session today keeps you there."}
-        </p>
         <button
           onClick={() => setTab("friends")}
           className="w-full cursor-pointer rounded-xl bg-white py-2.5 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"

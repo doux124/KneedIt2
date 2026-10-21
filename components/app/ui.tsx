@@ -2,23 +2,10 @@
 
 /** Small shared building blocks for the in-app screens. */
 
-export function ScreenHeader({
-  eyebrow,
-  title,
-  sub,
-}: {
-  eyebrow?: string;
-  title: string;
-  sub?: string;
-}) {
+export function ScreenHeader({ title, sub }: { title: string; sub?: string }) {
   return (
     <div className="mb-5">
-      {eyebrow && (
-        <p className="font-heading text-xs font-semibold uppercase tracking-wider text-secondary">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="mt-1 font-heading text-2xl font-bold text-ink">{title}</h2>
+      <h2 className="font-heading text-2xl font-bold text-ink">{title}</h2>
       {sub && <p className="mt-1 text-sm leading-relaxed text-ink/60">{sub}</p>}
     </div>
   );
@@ -47,12 +34,10 @@ export function Card({
 export function StatTile({
   label,
   value,
-  hint,
   accent = false,
 }: {
   label: string;
   value: string;
-  hint?: string;
   accent?: boolean;
 }) {
   return (
@@ -65,7 +50,6 @@ export function StatTile({
       >
         {value}
       </p>
-      {hint && <p className="mt-0.5 text-xs text-ink/55">{hint}</p>}
     </Card>
   );
 }
@@ -124,6 +108,64 @@ export function Pill({
     <span className={`inline-flex flex-none items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ${tones[tone]}`}>
       {children}
     </span>
+  );
+}
+
+/** Two or more options side by side, one selected. */
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  label,
+}: {
+  options: { id: T; label: string }[];
+  value: T;
+  onChange: (v: T) => void;
+  label: string;
+}) {
+  return (
+    <div className="mb-4 flex gap-1 rounded-xl bg-ink/5 p-1" role="group" aria-label={label}>
+      {options.map((o) => {
+        const active = o.id === value;
+        return (
+          <button
+            key={o.id}
+            onClick={() => onChange(o.id)}
+            aria-pressed={active}
+            className={`flex-1 cursor-pointer rounded-lg py-1.5 text-xs font-semibold transition-colors ${
+              active ? "bg-white text-ink shadow-sm" : "text-ink/50 hover:text-ink/80"
+            }`}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** On/off switch for a single setting. */
+export function Toggle({
+  on,
+  onChange,
+  label,
+}: {
+  on: boolean;
+  onChange: (v: boolean) => void;
+  label: string;
+}) {
+  return (
+    <button
+      onClick={() => onChange(!on)}
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
+      className={`mt-0.5 flex h-5 w-9 flex-none cursor-pointer items-center rounded-full px-0.5 transition-colors ${
+        on ? "justify-end bg-secondary" : "justify-start bg-ink/15"
+      }`}
+    >
+      <span className="h-4 w-4 rounded-full bg-white" />
+    </button>
   );
 }
 

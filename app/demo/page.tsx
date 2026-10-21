@@ -4,7 +4,7 @@ import { DemoApp } from "@/components/app/DemoApp";
 export const metadata: Metadata = {
   title: "Try the Kneedit App: Interactive Demo",
   description:
-    "Step through the Kneedit companion app: guided knee exercises scored on form, the friends leaderboard, live sleeve verification, and the caregiver dashboard. Interactive prototype.",
+    "Step through the Kneedit companion app: today's plan, a guided session with a form score and two-tap feedback, streaks and the friends leaderboard, the family weekly report and the physio view. Interactive prototype.",
 };
 
 export default function DemoPage() {

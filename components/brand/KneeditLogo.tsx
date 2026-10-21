@@ -1,4 +1,4 @@
-// Kneedit — logo replication
+// Kneedit logo replication
 // A stylized "K" mark whose vertical stem doubles as an LED / waveform strip
 // (the on-sleeve feedback motif), followed by "NEEDIT" in bold italic condensed
 // type. Pale mint on a dark charcoal gradient.
@@ -18,7 +18,7 @@ type KneeditLogoProps = {
 
 export function KneeditLogo({
   width = 300,
-  mark = "#394955", // ink — clearly visible on light backgrounds
+  mark = "#394955", // ink, clearly visible on light backgrounds
   background = "#2b2d31", // charcoal (only used when showBackdrop is true)
   showBackdrop = false,
   className,
