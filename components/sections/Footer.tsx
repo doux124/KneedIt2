@@ -10,10 +10,9 @@ export function Footer() {
           <div>
             <KneeditLogo width={150} />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink/60">
-              A smart knee sleeve and free companion app that prevents and
-              monitors knee osteoarthritis, built for elderly users and their
-              caregivers. Designed in Singapore at the National University of
-              Singapore.
+              A smart knee sleeve and companion app that helps seniors with knee
+              osteoarthritis keep up their physio exercises, with views for
+              family and physiotherapists.
             </p>
           </div>
 
@@ -22,8 +21,10 @@ export function Footer() {
             <ul className="mt-4 space-y-2 text-sm text-ink/60">
               <li><a href="#problem" className="transition-colors hover:text-ink">The Problem</a></li>
               <li><a href="#how" className="transition-colors hover:text-ink">How It Works</a></li>
-              <li><a href="#caregiver" className="transition-colors hover:text-ink">For Caregivers</a></li>
+              <li><a href="#families" className="transition-colors hover:text-ink">For Families</a></li>
+              <li><a href="#physios" className="transition-colors hover:text-ink">For Physios</a></li>
               <li><a href="#why" className="transition-colors hover:text-ink">Why Kneedit</a></li>
+              <li><a href="#pricing" className="transition-colors hover:text-ink">Pricing</a></li>
             </ul>
           </div>
 
@@ -39,7 +40,10 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-ink/10 pt-6 text-sm text-ink/50 sm:flex-row sm:items-center">
           <p>© {new Date().getFullYear()} Kneedit. All rights reserved.</p>
-          <p>Concept stage · Seeking clinical validation partners</p>
+          <p>
+            Concept stage. Software prototype live. Seeking physiotherapy clinic
+            pilot partners.
+          </p>
         </div>
       </div>
     </footer>

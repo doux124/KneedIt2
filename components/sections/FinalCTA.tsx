@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { CLINIC_PILOT_HREF } from "./contact";
+
+const outline =
+  "inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 font-heading font-semibold text-white transition-colors duration-200 hover:bg-white/10";
 
 export function FinalCTA() {
   return (
@@ -15,29 +19,23 @@ export function FinalCTA() {
           />
           <div className="relative">
             <h2 className="mx-auto max-w-2xl text-3xl font-bold text-white sm:text-4xl">
-              The first wearable that doesn&apos;t just track osteoarthritis, it
-              prevents it.
+              Make the home programme happen.
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/75">
-              Step through the Kneedit companion app yourself. See how a
-              well-performed exercise becomes points, how friends keep each
-              other moving, and how families stay in the loop.
-            </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/demo"
                 className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-white px-7 py-3.5 font-heading font-semibold text-ink transition-colors duration-200 hover:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
-                Try the interactive demo
+                Try the demo
                 <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
                   <path d="M6.3 2.8A1 1 0 0 0 4.8 3.7v12.6a1 1 0 0 0 1.5.9l10-6.3a1 1 0 0 0 0-1.7l-10-6.4Z" />
                 </svg>
               </Link>
-              <a
-                href="#how"
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 font-heading font-semibold text-white transition-colors duration-200 hover:bg-white/10"
-              >
-                Explore the product
+              <a href="#pricing" className={outline}>
+                See pricing
+              </a>
+              <a href={CLINIC_PILOT_HREF} className={outline}>
+                Partner as a clinic
               </a>
             </div>
           </div>
