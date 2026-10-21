@@ -35,11 +35,9 @@ export function Differentiation() {
     <section id="why" className="py-20 md:py-28">
       <div className="container-content">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
-            Why Kneedit
-          </span>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-            Supports your physio. Doesn&apos;t replace them.
+          <h2 className="text-3xl font-bold sm:text-4xl">
+            <span className="font-extrabold">Why Kneedit:</span> Built to
+            support your physio, not replace them
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink/70">
             Physiotherapy is the care. Kneedit makes the home part of it happen.

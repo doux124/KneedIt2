@@ -7,7 +7,6 @@ import { Families } from "@/components/sections/Families";
 import { Physios } from "@/components/sections/Physios";
 import { Differentiation } from "@/components/sections/Differentiation";
 import { Pricing } from "@/components/sections/Pricing";
-import { SafetyNote } from "@/components/sections/SafetyNote";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Footer } from "@/components/sections/Footer";
 
@@ -24,7 +23,6 @@ export default function Home() {
         <Physios />
         <Differentiation />
         <Pricing />
-        <SafetyNote />
         <FinalCTA />
       </main>
       <Footer />

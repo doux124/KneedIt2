@@ -20,21 +20,15 @@ export function Physios() {
     <section id="physios" className="py-20 md:py-28">
       <div className="container-content grid items-center gap-12 md:grid-cols-2 md:[&>*:first-child]:order-2">
         <Reveal>
-          <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
-            For Physiotherapists
-          </span>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-            See the full picture between visits
+          <h2 className="text-3xl font-bold sm:text-4xl">
+            <span className="font-extrabold">For physios:</span> See the full
+            picture between visits
           </h2>
           <p className="mt-5 leading-relaxed text-ink/75">
             Physiotherapists can&apos;t see what happens between appointments.
             Kneedit shows them.
           </p>
           <CheckList items={features} className="mt-6" />
-          <p className="mt-6 text-sm leading-relaxed text-ink/65">
-            Basic adherence stats are free. The full record comes with Kneedit
-            Plus.
-          </p>
           <Button href={CLINIC_PILOT_HREF} size="lg" className="mt-7">
             Pilot Kneedit with your clinic
           </Button>

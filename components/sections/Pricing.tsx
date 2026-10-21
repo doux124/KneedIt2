@@ -6,11 +6,9 @@ export function Pricing() {
     <section id="pricing" className="bg-secondary/15 py-20 md:py-28">
       <div className="container-content">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
-            Pricing
-          </span>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-            Start free with the sleeve
+          <h2 className="text-3xl font-bold sm:text-4xl">
+            <span className="font-extrabold">Pricing:</span> Start free with the
+            sleeve
           </h2>
         </Reveal>
 

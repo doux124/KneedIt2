@@ -17,8 +17,8 @@ export function Hero() {
         {/* Copy */}
         <div className="animate-fade-up">
           <h1 className="text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-            Physio works when the exercises happen.{" "}
-            <span className="text-secondary">Kneedit makes sure they do.</span>
+            Physio works.{" "}
+            <span className="text-secondary">Kneedit makes it stick.</span>
           </h1>
 
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink/75">
@@ -28,11 +28,19 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button href="#families" size="lg">
-              For families
+            <Button href="/demo" size="lg">
+              Try the interactive demo
+              <svg
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden
+              >
+                <path d="M6.3 2.8A1 1 0 0 0 4.8 3.7v12.6a1 1 0 0 0 1.5.9l10-6.3a1 1 0 0 0 0-1.7l-10-6.4Z" />
+              </svg>
             </Button>
-            <Button href="#physios" variant="secondary" size="lg">
-              For physiotherapists
+            <Button href="#how" variant="secondary" size="lg">
+              See how it works
             </Button>
           </div>
 

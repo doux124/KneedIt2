@@ -2,9 +2,9 @@ import { Reveal } from "../ui/Reveal";
 import { CheckList } from "../ui/CheckList";
 
 const features = [
-  "Free: their streak and monthly activity",
-  "Plus: alerts after 3 missed days, and Kneedit notifies family immediately if a possible fall is detected",
-  "Plus: a weekly report and a notes field the physio can read",
+  "Their streak and monthly activity",
+  "Alerts after 3 missed days, and Kneedit notifies family immediately if a possible fall is detected",
+  "A weekly report and a notes field the physio can read",
 ];
 
 export function Families() {
@@ -12,23 +12,14 @@ export function Families() {
     <section id="families" className="bg-secondary/15 py-20 md:py-28">
       <div className="container-content grid items-center gap-12 md:grid-cols-2">
         <Reveal>
-          <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
-            For Families
-          </span>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-            Know the exercises got done
+          <h2 className="text-3xl font-bold sm:text-4xl">
+            <span className="font-extrabold">For families:</span> Know the
+            exercises got done
           </h2>
           <p className="mt-5 leading-relaxed text-ink/75">
             Your parent shares how they&apos;re managing on their own.
           </p>
           <CheckList items={features} className="mt-6" />
-          <p className="mt-6 font-semibold text-ink">
-            The senior decides what is shared.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-ink/65">
-            Kneedit Plus costs under a tenth of one physio session a month, to
-            make sure the exercises from that session get done.
-          </p>
           <blockquote className="mt-8 border-l-4 border-secondary pl-5 text-lg italic leading-relaxed text-ink/80">
             &ldquo;If my daughter could see I had done it, she would stop
             nagging me, and that alone was reason enough to try.&rdquo;

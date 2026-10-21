@@ -14,11 +14,9 @@ export function Problem() {
     <section id="problem" className="py-20 md:py-28">
       <div className="container-content">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <span className="text-sm font-semibold uppercase tracking-wider text-secondary">
-            The Problem
-          </span>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-            Exercise works. Keeping it up is the hard part.
+          <h2 className="text-3xl font-bold sm:text-4xl">
+            <span className="font-extrabold">Your problem:</span> Keeping up
+            with physio exercises
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-ink/70">
             Prescribed, then stopped, then unseen, then the benefit fades.
@@ -59,17 +57,6 @@ export function Problem() {
               </a>
             </footer>
           </blockquote>
-        </Reveal>
-
-        <Reveal
-          delay={120}
-          className="mx-auto mt-12 max-w-3xl rounded-3xl bg-ink p-8 text-center text-white md:p-10"
-        >
-          <p className="font-heading text-xl font-semibold">
-            No product makes the home programme happen at a consumer price, with
-            family and physio in the loop.{" "}
-            <span className="text-accent-pink">Kneedit is that product.</span>
-          </p>
         </Reveal>
       </div>
     </section>

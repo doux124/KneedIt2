@@ -33,7 +33,9 @@ const stats: Stat[] = [
     href: "https://doi.org/10.1186/s12891-025-08524-z",
   },
   {
-    text: "Over half",
+    value: 50,
+    prefix: ">",
+    suffix: "%",
     label: "don't keep up prescribed exercise",
     // Ricke et al. (2023), citing Sabaté (2003)
     href: "https://doi.org/10.3389/fspor.2023.1035023",

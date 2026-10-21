@@ -23,7 +23,7 @@ npm run build && npm start   # production build
 
 | Route   | What it is |
 |---------|------------|
-| `/`     | Marketing landing page (hero video, stats, problem, how it works, for families, for physios, comparison, pricing, safety note, CTA) |
+| `/`     | Marketing landing page (hero video, stats, problem, how it works, for families, for physios, comparison, pricing, CTA) |
 | `/demo` | Interactive companion-app prototype: Today, Move, Sleeve, Friends, Care (family and physio views) and Profile, plus the guided session: video, live form score, two-tap feedback, sleeve check, streak and leaderboard |
 
 ## Progress & leaderboard
@@ -82,8 +82,8 @@ app/
   globals.css       Tailwind + base styles + reduced-motion
 components/
   sections/         Navbar, Hero (video), StatBar, Problem, HowItWorks,
-                    Families, Physios, Differentiation, Pricing, SafetyNote,
-                    FinalCTA, Footer, contact.ts (clinic pilot email)
+                    Families, Physios, Differentiation, Pricing, FinalCTA,
+                    Footer, contact.ts (clinic pilot email)
   app/              DemoApp shell + AppContext + AddFriendSheet + CareSwitch
                     + progress.ts
     screens/        TodayScreen, MoveScreen, SleeveScreen, LeaderboardScreen,
