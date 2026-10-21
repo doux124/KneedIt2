@@ -1,52 +1,32 @@
 import { Reveal } from "../ui/Reveal";
 import { Button } from "../ui/Button";
-import { LayerImage } from "./LayerImage";
+import { CheckList } from "../ui/CheckList";
 
 const layers = [
   {
-    tag: "01 · The Sleeve",
-    title: "Clinical-grade sensing, disguised as comfort",
-    body: "Worn during exercise and passively all day, the sleeve captures what no general wearable can: knee-specific range of motion, muscle engagement (EMG), and tissue health (PPG). An on-sleeve LED strip gives instant feedback, so users never need to touch a screen.",
+    number: "01",
+    tag: "The Sleeve",
+    title: "Feels like a sleeve. Counts every rep.",
+    body: "Motion and bend sensors measure knee angle and reps, and an LED confirms each one.",
     points: [
-      "Kinematic, EMG & PPG sensors",
-      "No setup, no technical literacy needed",
-      "Feels like a familiar compression sleeve",
+      "The prototype also has muscle (EMG) and heart-rate (PPG) sensors",
+      "All-day wear counts steps and can detect a possible fall",
+      "Use your phone only to start, follow the video and tap feedback",
     ],
-    image:
-      "https://images.unsplash.com/photo-1652354989460-ecccd5644412?w=1200&q=70&auto=format&fit=crop",
-    imageAlt:
-      "Close-up of a compression sleeve worn over a knee, soft studio lighting",
     tint: "bg-primary",
   },
   {
-    tag: "02 · The Behavioural Layer",
-    title: "It turns exercise into something worth showing up for",
-    body: "The free app scores every rep the sleeve sees. Exercises done with proper form are worth up to three times the points of a rushed one, and those points place you on a weekly leaderboard shared with friends you choose. The motivation to move stops being a lecture and starts being a friend one place ahead of you.",
+    number: "02",
+    tag: "The Behavioural Layer",
+    title: "Your physio's plan, guided at home",
+    body: "Press start and your prescribed exercises queue up with short videos. The sleeve scores your form out of 10.",
     points: [
-      "Points scale with form quality, not just reps",
-      "Add friends and compare weekly totals",
-      "Streaks and goals keep the habit alive",
+      "Two taps after each: did it hurt, was it easy?",
+      "Take a break between reps, or stop early at any time",
+      "Reminders, streaks and a friends leaderboard ranked by streak and completion rate",
     ],
-    image:
-      "https://images.unsplash.com/photo-1758691030826-86a149b6278b?w=1200&q=70&auto=format&fit=crop",
-    imageAlt: "An older man looking attentively at his smartphone",
     tint: "bg-accent-pink",
     demo: true,
-  },
-  {
-    tag: "03 · The Caregiver Ecosystem",
-    title: "Family stays in the loop, automatically",
-    body: "A dashboard lets nominated family members see exercise history, range-of-motion trends, and decline flags in real time. Miss sessions or show worsening mobility, and caregivers get an automatic alert, with no self-reporting from the elderly user.",
-    points: [
-      "Real-time exercise & ROM trends",
-      "Automatic missed-session alerts",
-      "Caregivers configure thresholds remotely",
-    ],
-    image:
-      "https://images.unsplash.com/photo-1589061434060-a05a5335bfbb?w=1200&q=70&auto=format&fit=crop",
-    imageAlt:
-      "A caregiver's hands gently clasping the hands of an elderly person",
-    tint: "bg-accent-mauve",
   },
 ];
 
@@ -59,60 +39,38 @@ export function HowItWorks() {
             How It Works
           </span>
           <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-            Three layers that close the loop every other product leaves open
+            Every rep guided, counted and confirmed
           </h2>
         </Reveal>
 
-        <div className="mt-16 flex flex-col gap-16 md:gap-24">
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
           {layers.map((layer, i) => (
             <Reveal
               key={layer.tag}
-              className={`grid items-center gap-8 md:grid-cols-2 md:gap-14 ${
-                i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
-              }`}
+              delay={i * 120}
+              className="flex flex-col rounded-3xl bg-white p-7 shadow-sm ring-1 ring-ink/5 md:p-10"
             >
-              {/* Copy */}
-              <div>
+              <div className="flex items-center gap-3">
+                <span
+                  className={`grid h-11 w-11 flex-none place-items-center rounded-2xl font-heading text-sm font-bold text-ink ${layer.tint}`}
+                  aria-hidden
+                >
+                  {layer.number}
+                </span>
                 <span className="font-heading text-sm font-semibold tracking-wide text-secondary">
                   {layer.tag}
                 </span>
-                <h3 className="mt-3 text-2xl font-bold sm:text-3xl">
-                  {layer.title}
-                </h3>
-                <p className="mt-4 leading-relaxed text-ink/70">{layer.body}</p>
-                <ul className="mt-6 space-y-3">
-                  {layer.points.map((p) => (
-                    <li key={p} className="flex items-start gap-3">
-                      <svg
-                        className="mt-0.5 h-5 w-5 flex-none text-secondary"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.3 3.3 6.8-6.8a1 1 0 0 1 1.4 0Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <span className="text-ink/80">{p}</span>
-                    </li>
-                  ))}
-                </ul>
-                {layer.demo && (
-                  <Button href="/demo" variant="primary" className="mt-7">
+              </div>
+              <h3 className="mt-5 text-2xl font-bold sm:text-3xl">{layer.title}</h3>
+              <p className="mt-4 leading-relaxed text-ink/70">{layer.body}</p>
+              <CheckList items={layer.points} className="mt-6" />
+              {layer.demo && (
+                <div className="mt-auto pt-7">
+                  <Button href="/demo" variant="primary">
                     See the app in action
                   </Button>
-                )}
-              </div>
-
-              {/* Visual — online photo with GSAP scroll-trigger reveal + parallax */}
-              <LayerImage
-                src={layer.image}
-                alt={layer.imageAlt}
-                index={i}
-                tintClass={layer.tint}
-              />
+                </div>
+              )}
             </Reveal>
           ))}
         </div>
