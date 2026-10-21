@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef } from "react";
 import Link from "next/link";
 import { AppProvider, useApp } from "./AppContext";
 import { AppShell } from "./AppShell";
@@ -25,6 +26,20 @@ const FEATURES = [
 ];
 
 export function DemoApp() {
+  const phoneRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * On mobile the phone sits above the shortcut buttons, so a tap would
+   * otherwise change a screen the user cannot see. Bring it back into view.
+   */
+  const revealPhone = useCallback(() => {
+    const node = phoneRef.current;
+    if (!node) return;
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    node.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  }, []);
+
   return (
     <AppProvider>
       <div className="min-h-screen bg-surface">
@@ -64,7 +79,7 @@ export function DemoApp() {
               leaderboard.
             </p>
 
-            <QuickActions />
+            <QuickActions onJump={revealPhone} />
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {FEATURES.map((f) => (
@@ -81,7 +96,7 @@ export function DemoApp() {
           </div>
 
           {/* Right: the phone app */}
-          <div className="order-1 md:order-2">
+          <div ref={phoneRef} className="order-1 scroll-mt-24 md:order-2">
             <AppShell />
           </div>
         </main>
@@ -91,37 +106,43 @@ export function DemoApp() {
 }
 
 /** Shortcut buttons that jump to key moments — uses app state. */
-function QuickActions() {
+function QuickActions({ onJump }: { onJump: () => void }) {
   const { setTab, setAutoStart, setAddFriendOpen } = useApp();
+
+  const go = (action: () => void) => () => {
+    action();
+    onJump();
+  };
+
   return (
     <div className="mt-7 flex flex-wrap gap-2">
       <button
-        onClick={() => {
+        onClick={go(() => {
           setAutoStart(true);
           setTab("move");
-        }}
-        className="cursor-pointer rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink/90"
+        })}
+        className="min-h-[44px] cursor-pointer rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink/90"
       >
         Earn points now
       </button>
       <button
-        onClick={() => setTab("friends")}
-        className="cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
+        onClick={go(() => setTab("friends"))}
+        className="min-h-[44px] cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
       >
         See the leaderboard
       </button>
       <button
-        onClick={() => {
+        onClick={go(() => {
           setTab("friends");
           setAddFriendOpen(true);
-        }}
-        className="cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
+        })}
+        className="min-h-[44px] cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
       >
         Add a friend
       </button>
       <button
-        onClick={() => setTab("caregiver")}
-        className="cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
+        onClick={go(() => setTab("caregiver"))}
+        className="min-h-[44px] cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"
       >
         Caregiver view
       </button>

@@ -121,7 +121,7 @@ export function Pill({
     warn: "bg-accent-mauve/30 text-ink",
   } as const;
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${tones[tone]}`}>
+    <span className={`inline-flex flex-none items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ${tones[tone]}`}>
       {children}
     </span>
   );

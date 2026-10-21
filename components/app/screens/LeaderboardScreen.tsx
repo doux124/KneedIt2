@@ -97,21 +97,23 @@ export function LeaderboardScreen() {
             Friend {requests.length === 1 ? "request" : "requests"}
           </p>
           {requests.map((r) => (
-            <div key={r.id} className="flex items-center gap-3">
+            <div key={r.id} className="flex items-center gap-2">
               <Avatar initials={r.initials} />
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-ink">{r.name}</p>
-                <p className="text-[11px] text-ink/50">{r.weeklyPoints} pts this week</p>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-semibold text-ink">{r.name}</p>
+                <p className="truncate text-[11px] text-ink/50">
+                  {r.weeklyPoints} pts this week
+                </p>
               </div>
               <button
                 onClick={() => acceptRequest(r.id)}
-                className="cursor-pointer rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-secondary/85"
+                className="flex-none cursor-pointer whitespace-nowrap rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-secondary/85"
               >
                 Accept
               </button>
               <button
                 onClick={() => dismissRequest(r.id)}
-                className="cursor-pointer rounded-full px-2 py-1.5 text-xs font-semibold text-ink/40 transition-colors hover:text-ink/70"
+                className="flex-none cursor-pointer whitespace-nowrap px-1 py-1.5 text-xs font-semibold text-ink/40 transition-colors hover:text-ink/70"
                 aria-label={`Dismiss request from ${r.name}`}
               >
                 Later

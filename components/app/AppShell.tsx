@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useApp, type Tab } from "./AppContext";
 import { AddFriendSheet } from "./AddFriendSheet";
 import { TodayScreen } from "./screens/TodayScreen";
@@ -61,7 +62,7 @@ const TABS: { id: Tab; label: string; icon: (a: string) => JSX.Element }[] = [
   },
   {
     id: "settings",
-    label: "Settings",
+    label: "Profile",
     icon: (c) => (
       <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="12" cy="12" r="3" />
@@ -90,9 +91,24 @@ function Screen({ tab }: { tab: Tab }) {
 
 export function AppShell() {
   const { tab, setTab, weeklyPoints } = useApp();
+  const screenRef = useRef<HTMLDivElement>(null);
+
+  // Land at the top of each screen rather than wherever the last one was
+  // scrolled to. Matters most on mobile, where the frame is short.
+  useEffect(() => {
+    screenRef.current?.scrollTo({ top: 0 });
+  }, [tab]);
 
   return (
-    <div className="relative mx-auto w-full max-w-[380px]">
+    /**
+     * The frame keeps its 9:19 shape, but on short viewports its width is
+     * derived from the height available so the whole phone, tab bar included,
+     * stays on screen. Browsers without `svh` fall back to the 380px class.
+     */
+    <div
+      className="relative mx-auto w-full max-w-[380px]"
+      style={{ maxWidth: "min(380px, calc((100svh - 7rem) * 9 / 19))" }}
+    >
       {/* Phone frame */}
       <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[2.8rem] border-[10px] border-ink bg-surface shadow-2xl shadow-ink/20">
         {/* notch */}
@@ -109,7 +125,10 @@ export function AppShell() {
         </div>
 
         {/* scrollable screen area */}
-        <div className="absolute inset-x-0 bottom-[68px] top-9 overflow-y-auto px-4 pb-4 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div
+          ref={screenRef}
+          className="absolute inset-x-0 bottom-[68px] top-9 overflow-y-auto overscroll-contain px-4 pb-4 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
           <Screen tab={tab} />
         </div>
 
@@ -124,13 +143,15 @@ export function AppShell() {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex cursor-pointer flex-col items-center gap-1 rounded-xl px-1.5 py-1 transition-colors ${
+                className={`flex min-w-0 flex-1 cursor-pointer flex-col items-center gap-1 rounded-xl px-0.5 py-1 transition-colors ${
                   active ? "text-ink" : "text-ink/40 hover:text-ink/70"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
-                {t.icon("h-5 w-5")}
-                <span className="text-[9px] font-semibold">{t.label}</span>
+                {t.icon("h-5 w-5 flex-none")}
+                <span className="w-full truncate text-center text-[9px] font-semibold leading-none">
+                  {t.label}
+                </span>
               </button>
             );
           })}
