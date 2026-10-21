@@ -30,11 +30,7 @@ export function CaregiverScreen() {
   return (
     <div className="space-y-4">
       <CareSwitch />
-      <ScreenHeader
-        eyebrow="Family view"
-        title={`${profile.elder}'s week`}
-        sub={`${profile.elder} chooses what ${profile.caregiver} sees.`}
-      />
+      <ScreenHeader title={`${profile.elder}'s week`} />
 
       {/* Free for family */}
       <Card tone="primary" className="space-y-3">

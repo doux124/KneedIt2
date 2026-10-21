@@ -10,9 +10,9 @@ const features = [
 ];
 
 const patients = [
-  { name: "Mdm Tan", done: 86 },
-  { name: "Mr Lim", done: 71 },
-  { name: "Mdm Siti", done: 29 },
+  { name: "Mary", done: 86 },
+  { name: "Ahmad", done: 71 },
+  { name: "Lakshmi", done: 29 },
 ];
 
 export function Physios() {
@@ -72,7 +72,7 @@ export function Physios() {
               </div>
 
               <div className="mt-4 rounded-2xl bg-accent-pink/60 p-4">
-                <p className="text-xs text-ink/55">Since last visit: Mdm Tan</p>
+                <p className="text-xs text-ink/55">Since last visit: Mary</p>
                 <p className="mt-1 text-sm leading-relaxed text-ink/80">
                   11 of 13 sessions. Pain once, in quad sets. Family note:
                   stiff after a long walk.

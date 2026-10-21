@@ -20,7 +20,6 @@ export function SettingsScreen() {
   return (
     <div className="space-y-4">
       <ScreenHeader
-        eyebrow="Profile"
         title="Profile & care plan"
         sub="A caregiver or you pair the sleeve once. There's nothing else to set up."
       />

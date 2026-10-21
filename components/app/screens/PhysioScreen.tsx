@@ -8,8 +8,8 @@ import { EXERCISES, PAST_DAYS, completionRate, initialsOf } from "../progress";
 
 /** Other patients on this physio's list. */
 const OTHER_PATIENTS = [
-  { name: "Mr Lim", sessionsDone: 6, flag: "On track" },
-  { name: "Mdm Siti", sessionsDone: 2, flag: "3 missed days" },
+  { name: "Ahmad", sessionsDone: 6, flag: "On track" },
+  { name: "Lakshmi", sessionsDone: 2, flag: "3 missed days" },
 ];
 
 /** Clinician-reviewed library, tagged so the physio can filter it. */
@@ -50,7 +50,6 @@ export function PhysioScreen() {
     <div className="space-y-4">
       <CareSwitch />
       <ScreenHeader
-        eyebrow="Physio view"
         title="Your patients"
         sub="What happens between visits. Physios also get this on a desktop dashboard."
       />

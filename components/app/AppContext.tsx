@@ -85,7 +85,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [sessionDone, setSessionDone] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
   const [profile, setProfile] = useState<Profile>({
-    elder: "Mdm Tan",
+    elder: "Mary",
     caregiver: "Wei",
     reminder: "9:00 AM",
     shareToLeaderboard: true,

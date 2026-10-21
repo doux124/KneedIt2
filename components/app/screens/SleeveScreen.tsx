@@ -23,7 +23,6 @@ export function SleeveScreen() {
   return (
     <div className="space-y-4">
       <ScreenHeader
-        eyebrow="Smart sleeve"
         title="Live sleeve signals"
         sub="What the sleeve senses, in real time. (Simulated for this demo.)"
       />

@@ -8,13 +8,11 @@ export function TodayScreen() {
   const { profile, sessionDone, setTab, weekRate, streak, rank, leaderboard, lastSession } =
     useApp();
 
-  const ahead = rank > 1 ? leaderboard[rank - 2] : null;
   const lastScore = lastSession ? sessionScore(lastSession.exercises) : null;
 
   return (
     <div className="space-y-4">
       <ScreenHeader
-        eyebrow="Today"
         title={`Good morning, ${profile.elder}`}
         sub={`Your reminder is set for ${profile.reminder}.`}
       />
@@ -43,13 +41,12 @@ export function TodayScreen() {
 
       {/* Stat grid */}
       <div className="grid grid-cols-2 gap-3">
-        <StatTile label="This week" value={`${weekRate}%`} hint="of sessions done" accent />
-        <StatTile label="Streak" value={`${streak} days`} hint="keep it going" />
-        <StatTile label="Leaderboard" value={`#${rank}`} hint={`of ${leaderboard.length} friends`} />
+        <StatTile label="Sessions this week" value={`${weekRate}%`} accent />
+        <StatTile label="Streak" value={`${streak} days`} />
+        <StatTile label="Leaderboard" value={`#${rank}`} />
         <StatTile
-          label="Form score"
+          label="Last form score"
           value={lastScore !== null ? formatScore(lastScore) : "None yet"}
-          hint="last session"
         />
       </div>
 
@@ -118,15 +115,6 @@ export function TodayScreen() {
             </div>
           ))}
         </div>
-        <p className="text-xs leading-relaxed text-ink/65">
-          {ahead
-            ? `${ahead.name} is one place ahead. ${
-                sessionDone ? "Tomorrow's session counts too." : "Today's session could move you up."
-              }`
-            : sessionDone
-              ? "You're leading your group."
-              : "You're leading your group. A session today keeps you there."}
-        </p>
         <button
           onClick={() => setTab("friends")}
           className="w-full cursor-pointer rounded-xl bg-white py-2.5 text-sm font-semibold text-ink ring-1 ring-ink/10 transition-colors hover:bg-primary/40"

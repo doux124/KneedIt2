@@ -92,7 +92,7 @@ function Screen({ tab }: { tab: Tab }) {
 }
 
 export function AppShell() {
-  const { tab, setTab, streak } = useApp();
+  const { tab, setTab } = useApp();
   const screenRef = useRef<HTMLDivElement>(null);
 
   // Land at the top of each screen rather than wherever the last one was
@@ -119,10 +119,6 @@ export function AppShell() {
         {/* status bar */}
         <div className="flex items-center justify-between px-6 pb-1 pt-3 text-[11px] font-semibold text-ink/60">
           <span>9:41</span>
-          <span className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-secondary" aria-hidden />
-            <span className="text-secondary">{streak}-day streak</span>
-          </span>
         </div>
 
         {/* scrollable screen area */}

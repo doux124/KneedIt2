@@ -20,8 +20,6 @@ export function LeaderboardScreen() {
     setAutoStart,
   } = useApp();
 
-  const ahead = rank > 1 ? leaderboard[rank - 2] : null;
-
   const startSession = () => {
     setAutoStart(true);
     setTab("move");
@@ -29,11 +27,7 @@ export function LeaderboardScreen() {
 
   return (
     <div className="space-y-4">
-      <ScreenHeader
-        eyebrow="Friends"
-        title="This week's leaderboard"
-        sub="Ranked by this week's sessions done, then streak. Only sessions the sleeve confirms count."
-      />
+      <ScreenHeader title="Leaderboard" />
 
       {/* Your standing */}
       <Card tone="primary" className="space-y-3">
@@ -44,19 +38,11 @@ export function LeaderboardScreen() {
                 {rank}
                 <span className="align-super text-[10px]">{ordinalSuffix(rank)}</span>
               </p>
-              <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-wide text-ink/45">
-                of {leaderboard.length}
-              </p>
             </div>
           </div>
           <div className="flex-1">
             <p className="font-heading text-2xl font-bold text-ink">
               {weekRate}% <span className="text-sm font-semibold text-ink/55">of sessions</span>
-            </p>
-            <p className="mt-1 text-xs leading-relaxed text-ink/65">
-              {ahead
-                ? `${ahead.name} is one place ahead.`
-                : "You're top of the group. Hold the lead."}
             </p>
           </div>
         </div>

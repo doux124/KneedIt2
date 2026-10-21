@@ -2,23 +2,10 @@
 
 /** Small shared building blocks for the in-app screens. */
 
-export function ScreenHeader({
-  eyebrow,
-  title,
-  sub,
-}: {
-  eyebrow?: string;
-  title: string;
-  sub?: string;
-}) {
+export function ScreenHeader({ title, sub }: { title: string; sub?: string }) {
   return (
     <div className="mb-5">
-      {eyebrow && (
-        <p className="font-heading text-xs font-semibold uppercase tracking-wider text-secondary">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="mt-1 font-heading text-2xl font-bold text-ink">{title}</h2>
+      <h2 className="font-heading text-2xl font-bold text-ink">{title}</h2>
       {sub && <p className="mt-1 text-sm leading-relaxed text-ink/60">{sub}</p>}
     </div>
   );
@@ -47,12 +34,10 @@ export function Card({
 export function StatTile({
   label,
   value,
-  hint,
   accent = false,
 }: {
   label: string;
   value: string;
-  hint?: string;
   accent?: boolean;
 }) {
   return (
@@ -65,7 +50,6 @@ export function StatTile({
       >
         {value}
       </p>
-      {hint && <p className="mt-0.5 text-xs text-ink/55">{hint}</p>}
     </Card>
   );
 }

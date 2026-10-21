@@ -185,7 +185,6 @@ export function MoveScreen() {
     return (
       <div className="space-y-4">
         <ScreenHeader
-          eyebrow="Move"
           title="Today's exercises"
           sub="Prescribed by your physio. The sleeve confirms each rep and scores your form out of 10."
         />
@@ -254,7 +253,7 @@ export function MoveScreen() {
     const pct = (rep / current.reps) * 100;
     return (
       <div className="flex h-full flex-col">
-        <ScreenHeader eyebrow={`Exercise ${exIndex + 1} of ${EXERCISES.length}`} title={current.name} />
+        <ScreenHeader title={current.name} sub={`Exercise ${exIndex + 1} of ${EXERCISES.length}`} />
 
         {/* Real demonstration video, follow along */}
         <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-ink/90 ring-1 ring-ink/5">

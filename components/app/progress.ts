@@ -84,25 +84,25 @@ export type LeaderboardRow = Friend & { rank: number; rate: number };
 
 /** Friends the user already exercises with. */
 export const SEED_FRIENDS: Friend[] = [
-  { id: "lim", name: "Uncle Lim", initials: "UL", sessionsDone: 6, streak: 11 },
-  { id: "rosnah", name: "Auntie Rosnah", initials: "AR", sessionsDone: 5, streak: 8 },
-  { id: "chua", name: "Mr Chua", initials: "MC", sessionsDone: 5, streak: 2 },
-  { id: "devi", name: "Auntie Devi", initials: "AD", sessionsDone: 4, streak: 1 },
-  { id: "boon", name: "Uncle Boon", initials: "UB", sessionsDone: 2, streak: 1 },
+  { id: "junjie", name: "Jun Jie", initials: "JJ", sessionsDone: 6, streak: 11 },
+  { id: "rosnah", name: "Rosnah", initials: "R", sessionsDone: 5, streak: 8 },
+  { id: "kokleong", name: "Kok Leong", initials: "KL", sessionsDone: 5, streak: 2 },
+  { id: "devi", name: "Devi", initials: "D", sessionsDone: 4, streak: 1 },
+  { id: "boonhuat", name: "Boon Huat", initials: "BH", sessionsDone: 2, streak: 1 },
 ];
 
 /** Incoming requests waiting on the user. */
 export const SEED_REQUESTS: Friend[] = [
-  { id: "siti", name: "Mdm Siti", initials: "MS", sessionsDone: 5, streak: 6 },
+  { id: "siti", name: "Siti", initials: "S", sessionsDone: 5, streak: 6 },
 ];
 
 /** People the app suggests, from the same block or exercise group. */
 export const SUGGESTED_FRIENDS: (Friend & { context: string })[] = [
-  { id: "goh", name: "Auntie Goh", initials: "AG", sessionsDone: 6, streak: 9, context: "Block 128 walking group" },
-  { id: "raj", name: "Uncle Raj", initials: "UR", sessionsDone: 5, streak: 7, context: "Same physiotherapy clinic" },
-  { id: "mei", name: "Mdm Mei", initials: "MM", sessionsDone: 4, streak: 4, context: "Block 128 walking group" },
-  { id: "hassan", name: "Mr Hassan", initials: "MH", sessionsDone: 3, streak: 2, context: "Invited by Uncle Lim" },
-  { id: "wong", name: "Auntie Wong", initials: "AW", sessionsDone: 3, streak: 3, context: "Nearby community centre" },
+  { id: "meiling", name: "Mei Ling", initials: "ML", sessionsDone: 6, streak: 9, context: "Block 128 walking group" },
+  { id: "ramesh", name: "Ramesh", initials: "R", sessionsDone: 5, streak: 7, context: "Same physiotherapy clinic" },
+  { id: "layhoon", name: "Lay Hoon", initials: "LH", sessionsDone: 4, streak: 4, context: "Block 128 walking group" },
+  { id: "hassan", name: "Hassan", initials: "H", sessionsDone: 3, streak: 2, context: "Invited by Jun Jie" },
+  { id: "siewlan", name: "Siew Lan", initials: "SL", sessionsDone: 3, streak: 3, context: "Nearby community centre" },
 ];
 
 /** Build the ranked table, user included: completion rate first, then streak. */
@@ -113,10 +113,10 @@ export function buildLeaderboard(friends: Friend[], you: Friend): LeaderboardRow
     .map((f, i) => ({ ...f, rank: i + 1 }));
 }
 
-/** Initials for a display name, used for friend avatars. */
+/** Initials for a display name, used for avatars: "Mary" is M, "Jun Jie" is JJ. */
 export function initialsOf(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "?";
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  if (parts.length === 1) return parts[0][0].toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
