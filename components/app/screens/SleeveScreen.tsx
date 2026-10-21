@@ -7,13 +7,15 @@ export function SleeveScreen() {
   // Lightweight "live" sensor animation
   const [rom, setRom] = useState(88);
   const [emg, setEmg] = useState([40, 65, 52, 70, 48]);
-  const [conf, setConf] = useState(96);
+  const [heartRate, setHeartRate] = useState(84);
+  const [steps, setSteps] = useState(3218);
 
   useEffect(() => {
     const id = setInterval(() => {
       setRom((v) => clamp(v + rand(-3, 3), 78, 96));
       setEmg((arr) => arr.map(() => rand(35, 85)));
-      setConf((v) => clamp(v + rand(-1, 1), 93, 99));
+      setHeartRate((v) => clamp(v + rand(-2, 2), 78, 96));
+      setSteps((v) => v + rand(0, 4));
     }, 900);
     return () => clearInterval(id);
   }, []);
@@ -22,7 +24,7 @@ export function SleeveScreen() {
     <div className="space-y-4">
       <ScreenHeader
         eyebrow="Smart sleeve"
-        title="Live joint signals"
+        title="Live sleeve signals"
         sub="What the sleeve senses, in real time. (Simulated for this demo.)"
       />
 
@@ -34,10 +36,10 @@ export function SleeveScreen() {
         <Pill tone="good">LED: green</Pill>
       </Card>
 
-      {/* ROM gauge */}
+      {/* Knee angle gauge */}
       <Card className="space-y-2">
         <div className="flex items-center justify-between">
-          <p className="text-xs text-ink/55">Range of motion (knee angle)</p>
+          <p className="text-xs text-ink/55">Knee angle (motion and bend sensors)</p>
           <p className="font-heading text-sm font-bold text-secondary">{rom}°</p>
         </div>
         <div className="h-2.5 overflow-hidden rounded-full bg-primary">
@@ -46,7 +48,7 @@ export function SleeveScreen() {
             style={{ width: `${(rom / 120) * 100}%` }}
           />
         </div>
-        <p className="text-[11px] text-ink/50">Healthy active range · target 90°+</p>
+        <p className="text-[11px] text-ink/50">Target: 90° or more</p>
       </Card>
 
       {/* EMG bars */}
@@ -62,13 +64,13 @@ export function SleeveScreen() {
             />
           ))}
         </div>
-        <p className="text-[11px] text-ink/50">Quadriceps activating well</p>
+        <p className="text-[11px] text-ink/50">Prototype sensor, still being tested</p>
       </Card>
 
       <div className="grid grid-cols-2 gap-3">
         {/* PPG waveform */}
         <Card className="space-y-2">
-          <p className="text-xs text-ink/55">Tissue health (PPG)</p>
+          <p className="text-xs text-ink/55">Heart rate (PPG)</p>
           <svg viewBox="0 0 120 40" className="h-12 w-full" aria-hidden>
             <polyline
               points="0,30 15,30 22,10 30,34 40,20 55,20 62,8 70,32 82,22 120,22"
@@ -79,14 +81,16 @@ export function SleeveScreen() {
               strokeLinejoin="round"
             />
           </svg>
-          <p className="text-[11px] text-ink/50">Good perfusion</p>
+          <p className="text-[11px] text-ink/50">{heartRate} bpm</p>
         </Card>
 
-        {/* Confidence */}
+        {/* All-day activity */}
         <Card className="flex flex-col items-center justify-center">
-          <p className="text-xs text-ink/55">Reading confidence</p>
-          <p className="mt-1 font-heading text-3xl font-bold text-ink">{conf}%</p>
-          <p className="text-[11px] text-ink/50">High certainty</p>
+          <p className="text-xs text-ink/55">Steps today</p>
+          <p className="mt-1 font-heading text-3xl font-bold text-ink">
+            {steps.toLocaleString("en-SG")}
+          </p>
+          <p className="text-[11px] text-ink/50">All-day wear</p>
         </Card>
       </div>
     </div>

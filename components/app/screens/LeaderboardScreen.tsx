@@ -2,15 +2,16 @@
 
 import { useApp } from "../AppContext";
 import { Card, Pill, ScreenHeader } from "../ui";
-import { GRADES, GRADE_ORDER, POINTS_PER_REP, type LeaderboardRow } from "../points";
+import { completionRate, SESSIONS_PER_WEEK, type LeaderboardRow } from "../progress";
 
 export function LeaderboardScreen() {
   const {
     leaderboard,
     rank,
-    weeklyPoints,
+    weekRate,
+    sessionsDone,
+    sessionDone,
     streak,
-    profile,
     requests,
     acceptRequest,
     dismissRequest,
@@ -19,10 +20,7 @@ export function LeaderboardScreen() {
     setAutoStart,
   } = useApp();
 
-  const me = leaderboard.find((r) => r.you);
-  const ahead = leaderboard[Math.max(0, (me?.rank ?? 1) - 2)];
-  const gap = me && ahead && ahead.id !== me.id ? ahead.weeklyPoints - me.weeklyPoints : 0;
-  const goalPct = Math.min(100, Math.round((weeklyPoints / profile.weeklyGoal) * 100));
+  const ahead = rank > 1 ? leaderboard[rank - 2] : null;
 
   const startSession = () => {
     setAutoStart(true);
@@ -34,7 +32,7 @@ export function LeaderboardScreen() {
       <ScreenHeader
         eyebrow="Friends"
         title="This week's leaderboard"
-        sub="Points come from exercises the sleeve confirms you did properly."
+        sub="Ranked by this week's sessions done, then streak. Only sessions the sleeve confirms count."
       />
 
       {/* Your standing */}
@@ -53,40 +51,46 @@ export function LeaderboardScreen() {
           </div>
           <div className="flex-1">
             <p className="font-heading text-2xl font-bold text-ink">
-              {weeklyPoints} <span className="text-sm font-semibold text-ink/55">pts</span>
+              {weekRate}% <span className="text-sm font-semibold text-ink/55">of sessions</span>
             </p>
             <p className="mt-1 text-xs leading-relaxed text-ink/65">
-              {gap > 0
-                ? `${gap} points behind ${ahead?.name}. One good session closes it.`
+              {ahead
+                ? `${ahead.name} is one place ahead.`
                 : "You're top of the group. Hold the lead."}
             </p>
           </div>
         </div>
 
-        {/* Weekly goal */}
+        {/* This week's sessions */}
         <div>
           <div className="flex items-center justify-between text-[11px] font-semibold text-ink/55">
-            <span>Weekly goal</span>
+            <span>This week</span>
             <span>
-              {weeklyPoints} / {profile.weeklyGoal} pts
+              {sessionsDone} of {SESSIONS_PER_WEEK} sessions
             </span>
           </div>
           <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/70">
             <div
               className="h-full rounded-full bg-secondary transition-all duration-700"
-              style={{ width: `${goalPct}%` }}
+              style={{ width: `${weekRate}%` }}
             />
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <Pill tone="secondary">{streak}-day streak</Pill>
-          <button
-            onClick={startSession}
-            className="flex-1 cursor-pointer rounded-xl bg-ink py-2 text-xs font-semibold text-white transition-colors hover:bg-ink/90"
-          >
-            Earn points now
-          </button>
+          {sessionDone ? (
+            <span className="flex-1 rounded-xl bg-white/70 py-2 text-center text-xs font-semibold text-ink/60">
+              Today&apos;s session done
+            </span>
+          ) : (
+            <button
+              onClick={startSession}
+              className="flex-1 cursor-pointer rounded-xl bg-ink py-2 text-xs font-semibold text-white transition-colors hover:bg-ink/90"
+            >
+              Start today&apos;s session
+            </button>
+          )}
         </div>
       </Card>
 
@@ -102,7 +106,7 @@ export function LeaderboardScreen() {
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-ink">{r.name}</p>
                 <p className="truncate text-[11px] text-ink/50">
-                  {r.weeklyPoints} pts this week
+                  {completionRate(r.sessionsDone)}% of sessions this week
                 </p>
               </div>
               <button
@@ -143,29 +147,26 @@ export function LeaderboardScreen() {
         </button>
       </Card>
 
-      {/* How scoring works */}
+      {/* How the ranking works */}
       <Card tone="pink" className="space-y-2.5">
-        <p className="font-heading text-sm font-semibold text-ink">How points work</p>
-        <p className="text-xs leading-relaxed text-ink/65">
-          Every rep is worth {POINTS_PER_REP} points, multiplied by how well the
-          sleeve scores your form. Doing fewer reps properly beats rushing
-          through more.
-        </p>
+        <p className="font-heading text-sm font-semibold text-ink">How the ranking works</p>
         <div className="space-y-1.5">
-          {GRADE_ORDER.map((g) => (
+          {[
+            ["First", "Share of this week's prescribed sessions done"],
+            ["Then", "Streak, to break a tie"],
+          ].map(([order, rule]) => (
             <div
-              key={g}
-              className="flex items-center justify-between rounded-lg bg-white/70 px-3 py-1.5"
+              key={order}
+              className="flex items-center justify-between gap-3 rounded-lg bg-white/70 px-3 py-1.5"
             >
-              <span className="text-xs font-semibold text-ink/75">{GRADES[g].label}</span>
-              <span className="font-heading text-xs font-bold text-secondary">
-                {GRADES[g].multiplier}× points
-              </span>
+              <span className="text-xs font-semibold text-ink/75">{rule}</span>
+              <span className="font-heading text-xs font-bold text-secondary">{order}</span>
             </div>
           ))}
         </div>
         <p className="text-[11px] leading-relaxed text-ink/50">
-          Only sleeve-verified reps score. No sleeve, no points.
+          Sessions beyond the one prescribed each day don&apos;t count, so doing
+          more never beats doing it properly. No sleeve, no session.
         </p>
       </Card>
     </div>
@@ -202,12 +203,12 @@ function Row({ row }: { row: LeaderboardRow }) {
         </p>
         <p className="text-[11px] text-ink/50">
           {row.streak}-day streak
-          {row.justAdded && <span className="ml-1 text-secondary">· new friend</span>}
+          {row.justAdded && <span className="text-secondary">, new friend</span>}
         </p>
       </div>
       <p className="font-heading text-sm font-bold text-ink">
-        {row.weeklyPoints}
-        <span className="ml-0.5 text-[10px] font-semibold text-ink/45">pts</span>
+        {row.rate}
+        <span className="ml-0.5 text-[10px] font-semibold text-ink/45">%</span>
       </p>
     </div>
   );

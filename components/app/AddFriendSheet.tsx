@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useApp } from "./AppContext";
 import { Check } from "./ui";
-import { SUGGESTED_FRIENDS } from "./points";
+import { SUGGESTED_FRIENDS } from "./progress";
 
 /** Bottom sheet inside the phone for adding exercise friends. */
 export function AddFriendSheet() {
@@ -42,8 +42,8 @@ export function AddFriendSheet() {
           <div>
             <h3 className="font-heading text-lg font-bold text-ink">Add a friend</h3>
             <p className="mt-0.5 text-xs leading-relaxed text-ink/60">
-              Exercising alongside someone is the strongest predictor of sticking
-              with it.
+              Friends keep each other going. They see your streak and this
+              week&apos;s sessions, never health readings.
             </p>
           </div>
           <button

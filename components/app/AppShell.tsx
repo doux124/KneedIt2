@@ -8,6 +8,7 @@ import { MoveScreen } from "./screens/MoveScreen";
 import { SleeveScreen } from "./screens/SleeveScreen";
 import { LeaderboardScreen } from "./screens/LeaderboardScreen";
 import { CaregiverScreen } from "./screens/CaregiverScreen";
+import { PhysioScreen } from "./screens/PhysioScreen";
 import { SettingsScreen } from "./screens/SettingsScreen";
 
 const TABS: { id: Tab; label: string; icon: (a: string) => JSX.Element }[] = [
@@ -73,6 +74,7 @@ const TABS: { id: Tab; label: string; icon: (a: string) => JSX.Element }[] = [
 ];
 
 function Screen({ tab }: { tab: Tab }) {
+  const { careView } = useApp();
   switch (tab) {
     case "today":
       return <TodayScreen />;
@@ -83,14 +85,14 @@ function Screen({ tab }: { tab: Tab }) {
     case "friends":
       return <LeaderboardScreen />;
     case "caregiver":
-      return <CaregiverScreen />;
+      return careView === "physio" ? <PhysioScreen /> : <CaregiverScreen />;
     case "settings":
       return <SettingsScreen />;
   }
 }
 
 export function AppShell() {
-  const { tab, setTab, weeklyPoints } = useApp();
+  const { tab, setTab, streak } = useApp();
   const screenRef = useRef<HTMLDivElement>(null);
 
   // Land at the top of each screen rather than wherever the last one was
@@ -119,8 +121,7 @@ export function AppShell() {
           <span>9:41</span>
           <span className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-secondary" aria-hidden />
-            <span className="text-secondary">{weeklyPoints} pts</span>
-            <span className="text-ink/30">·</span> Kneedit
+            <span className="text-secondary">{streak}-day streak</span>
           </span>
         </div>
 

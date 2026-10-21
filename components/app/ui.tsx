@@ -127,6 +127,64 @@ export function Pill({
   );
 }
 
+/** Two or more options side by side, one selected. */
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  label,
+}: {
+  options: { id: T; label: string }[];
+  value: T;
+  onChange: (v: T) => void;
+  label: string;
+}) {
+  return (
+    <div className="mb-4 flex gap-1 rounded-xl bg-ink/5 p-1" role="group" aria-label={label}>
+      {options.map((o) => {
+        const active = o.id === value;
+        return (
+          <button
+            key={o.id}
+            onClick={() => onChange(o.id)}
+            aria-pressed={active}
+            className={`flex-1 cursor-pointer rounded-lg py-1.5 text-xs font-semibold transition-colors ${
+              active ? "bg-white text-ink shadow-sm" : "text-ink/50 hover:text-ink/80"
+            }`}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** On/off switch for a single setting. */
+export function Toggle({
+  on,
+  onChange,
+  label,
+}: {
+  on: boolean;
+  onChange: (v: boolean) => void;
+  label: string;
+}) {
+  return (
+    <button
+      onClick={() => onChange(!on)}
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
+      className={`mt-0.5 flex h-5 w-9 flex-none cursor-pointer items-center rounded-full px-0.5 transition-colors ${
+        on ? "justify-end bg-secondary" : "justify-start bg-ink/15"
+      }`}
+    >
+      <span className="h-4 w-4 rounded-full bg-white" />
+    </button>
+  );
+}
+
 export function Check({ className = "h-4 w-4" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
