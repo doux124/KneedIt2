@@ -34,7 +34,7 @@ export function TodayScreen() {
           <p className="mt-1 text-sm leading-relaxed text-ink/70">
             {sessionDone
               ? "You've done today's plan. Your knees thank you."
-              : "Three exercises from your physio, each with a short video. Go at your own pace."}
+              : "Three exercises from your physio, each with a short video."}
           </p>
         </div>
       </Card>

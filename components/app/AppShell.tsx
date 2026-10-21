@@ -23,11 +23,11 @@ const TABS: { id: Tab; label: string; icon: (a: string) => JSX.Element }[] = [
   },
   {
     id: "move",
-    label: "Move",
+    label: "Start",
     icon: (c) => (
       <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="9" width="18" height="6" rx="3" />
-        <path d="M3 12H1M23 12h-2" strokeLinecap="round" />
+        <circle cx="12" cy="12" r="9" />
+        <path d="M10 8.5v7l5.5-3.5L10 8.5Z" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -36,7 +36,12 @@ const TABS: { id: Tab; label: string; icon: (a: string) => JSX.Element }[] = [
     label: "Sleeve",
     icon: (c) => (
       <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M12 3v18M5 7c2 1 5 1 7 0s5-1 7 0M5 17c2-1 5-1 7 0s5 1 7 0" strokeLinecap="round" />
+        {/* Knee sleeve: soft tube with an open top and the LED strip down the front */}
+        <ellipse cx="12" cy="4.5" rx="5" ry="1.6" />
+        <path
+          d="M7 4.5c.8 2.6 1.2 5 1.2 7.5S7.8 17 7 19.5M17 4.5c-.8 2.6-1.2 5-1.2 7.5s.4 5 1.2 7.5M7 19.5c1.5.8 3.2 1.2 5 1.2s3.5-.4 5-1.2M12 9v6"
+          strokeLinecap="round"
+        />
       </svg>
     ),
   },

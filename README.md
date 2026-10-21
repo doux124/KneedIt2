@@ -24,7 +24,7 @@ npm run build && npm start   # production build
 | Route   | What it is |
 |---------|------------|
 | `/`     | Marketing landing page (hero video, stats, problem, how it works, for families, for physios, comparison, pricing, CTA) |
-| `/demo` | Interactive companion-app prototype: Today, Move, Sleeve, Friends, Care (family and physio views) and Profile, plus the guided session: video, live form score, two-tap feedback, sleeve check, streak and leaderboard |
+| `/demo` | Interactive companion-app prototype: Today, Start, Sleeve, Friends, Care (family and physio views) and Profile, plus the guided session: video, live form score, two-tap feedback, sleeve check, streak and leaderboard |
 
 ## Progress & leaderboard
 

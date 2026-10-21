@@ -5,24 +5,13 @@ import Link from "next/link";
 import { AppProvider, useApp } from "./AppContext";
 import { AppShell } from "./AppShell";
 import { KneeditLogo } from "../brand/KneeditLogo";
+import { CheckList } from "../ui/CheckList";
 
 const FEATURES = [
-  {
-    title: "Guided sessions",
-    body: "Your physio's exercises, each with a short video. Take a break or stop at any time.",
-  },
-  {
-    title: "Sleeve verification",
-    body: "The sleeve confirms each rep and scores your form out of 10.",
-  },
-  {
-    title: "Streaks and friends",
-    body: "A leaderboard ranked by this week's sessions done, then streak.",
-  },
-  {
-    title: "Family and physio",
-    body: "A weekly report for family, and a visit summary for the physio.",
-  },
+  "Your physio's exercises, with short videos",
+  "Every rep confirmed and scored by the sleeve",
+  "Streaks and a friends leaderboard",
+  "Reports for family and your physio",
 ];
 
 export function DemoApp() {
@@ -80,14 +69,7 @@ export function DemoApp() {
 
             <QuickActions onJump={revealPhone} />
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              {FEATURES.map((f) => (
-                <div key={f.title} className="rounded-2xl bg-white p-4 ring-1 ring-ink/5">
-                  <p className="font-heading text-sm font-semibold text-ink">{f.title}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-ink/60">{f.body}</p>
-                </div>
-              ))}
-            </div>
+            <CheckList items={FEATURES} className="mt-8" />
 
             <p className="mt-6 text-xs text-ink/45">
               Prototype only. Kneedit is not a medical device. It does not
